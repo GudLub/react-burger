@@ -1,0 +1,33 @@
+.header {
+    background-color: #1C1C21;
+}
+
+.navigation {
+    max-width: 1280px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: auto;
+    padding: 16px 0 16px 0;
+}
+.leftbar {
+    justify-self: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+.logo {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 40px;
+}
+.button {
+    justify-self: flex-end;
+    border: none;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+    background: none;
+    padding: 20px;
+    color: #F2F2F3;
+}
