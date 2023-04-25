@@ -1,6 +1,6 @@
 import React from 'react';
-import AppHeader from './components/AppHeader/AppHeader.jsx'
-import Main from './components/Main/Main.jsx'
+import AppHeader from '../AppHeader/AppHeader.jsx'
+import Main from '../Main/Main.jsx'
 import styles from './App.module.scss'
 
 function App() {

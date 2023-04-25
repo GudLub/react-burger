@@ -1,7 +1,7 @@
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import styles from './Ingredient.module.scss'
-
+import styles from './Ingredient.module.scss';
+import PropTypes from 'prop-types';
 
 const Ingredient = ({image, name, price, type}) => {
 
@@ -21,5 +21,13 @@ const Ingredient = ({image, name, price, type}) => {
         </div>
     );
 };
+
+Ingredient.propTypes = {
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+  };
 
 export default Ingredient;

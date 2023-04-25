@@ -18,7 +18,7 @@ const BurgerConstructor = () => {
       <li><ul className={styles.scroll}>
       {data.map((e) => {
         return e.type !== 'bun' &&
-        <li className={styles.scrollEl}><DragIcon type="primary" />
+        <li key={e._id} className={styles.scrollEl}><DragIcon type="primary" />
         <ConstructorElement
         text={e.name}
         price={e.price}

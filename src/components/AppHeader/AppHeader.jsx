@@ -10,11 +10,11 @@ const AppHeader = () => {
                 <div className={styles.leftbar}>
                 <button className={styles.button}>
                     <BurgerIcon type= "primary" />
-                    <p className="text text_type_main-default">Конструктор</p>
+                    <a href="#" className="text text_type_main-default">Конструктор</a>
                 </button>
                 <button className={styles.button}>
                     <ListIcon type= "secondary" />
-                    <p className="text text_type_main-default text_color_inactive">Лента&nbsp;заказов</p>
+                    <a href="#" className="text text_type_main-default text_color_inactive">Лента&nbsp;заказов</a>
                 </button>
                 </div>
                 <div className={styles.logo}>
@@ -22,7 +22,7 @@ const AppHeader = () => {
                 </div>
                 <button className={styles.button}>
                     <ProfileIcon type= "secondary" />
-                    <p className="text text_type_main-default text_color_inactive">Личный&nbsp;кабинет</p>
+                    <a href="#" className="text text_type_main-default text_color_inactive">Личный&nbsp;кабинет</a>
                 </button>
             </nav>
         </header>
