@@ -1,21 +1,21 @@
 .ingredient {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto auto auto;
-    justify-items: center;
-    text-align: center;
-    list-style: none;
-    gap: 4px;
-    padding: 0 16px 0 16px;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  text-align: center;
+  list-style: none;
+  gap: 4px;
+  padding: 0 16px 0 16px;
 }
 .price {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
 }
 
 .count {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
