@@ -1,33 +1,53 @@
-import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  Counter,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import styles from './Ingredient.module.scss';
-import PropTypes from 'prop-types';
+import styles from "./Ingredient.module.scss";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { ingredientPropTypes } from "../../utils/PropTypes";
 
-const Ingredient = ({image, name, price, type}) => {
+const Ingredient = ({ ingredient }) => {
+  const { image, name, price, type } = ingredient;
+  const [count, setCount] = useState(0);
+  const [modal, setModal] = useState(false);
 
-    const [count, setCount] = useState(0);
+  const toggleModal = () => {
+    setModal(!modal);
+  };
 
-    return (
-        <div onClick={() => type === 'bun' ? setCount(1) : setCount(count + 1)} className={styles.ingredient}>
-            {count>0 && <Counter className={styles.counter} count={count} size="default" extraClass="m-1"/>}
-           
-            <img src={image} alt={name} />
-            <div className={styles.price}>
-            <p className='text text_type_digits-default'>
-          {price}</p>
-           <CurrencyIcon />
-            </div>
-            <p className="text text_type_main-default">{name}</p>
-        </div>
-    );
+  return (
+    <div
+      onClick={() => (type === "bun" ? setCount(1) : setCount(count + 1))}
+      className={styles.ingredient}
+    >
+      {count > 0 && (
+        <Counter
+          className={styles.counter}
+          count={count}
+          size="default"
+          extraClass="m-1"
+        />
+      )}
+
+      <img onClick={toggleModal} src={image} alt={name} />
+      <div className={styles.price}>
+        <p className="text text_type_digits-default">{price}</p>
+        <CurrencyIcon />
+      </div>
+      <p className="text text_type_main-default">{name}</p>
+      {modal && (
+        <Modal onClick={toggleModal}>
+          <IngredientDetails ingredient={ingredient} />
+        </Modal>
+      )}
+    </div>
+  );
 };
 
 Ingredient.propTypes = {
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-  };
+  ingredient: ingredientPropTypes
+};
 
 export default Ingredient;
