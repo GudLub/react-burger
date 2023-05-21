@@ -1,6 +1,7 @@
 import styles from "./IngredientDetails.module.scss";
 import { ingredientPropTypes } from "../../utils/PropTypes";
 
+
 const IngredientDetails = ({ ingredient }) => {
   const { image_large, name, calories, proteins, fat, carbohydrates } =
     ingredient;

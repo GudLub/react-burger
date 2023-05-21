@@ -1,9 +1,8 @@
 import styles from "./BurgerIngredients.module.scss";
 import Ingredient from "../Ingredient/Ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
-import { ingredientPropTypes } from "../../utils/PropTypes";
-import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
+import ConstructorContext from "../../utils/ConstructorContext";
 
 const type = [
   { name: "Булки", type: "bun" },
@@ -11,9 +10,9 @@ const type = [
   { name: "Начинки", type: "main" },
 ];
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState(type[0].name);
-
+  const data = useContext(ConstructorContext);
   return (
     <section>
       <div className="mt-10">
@@ -34,7 +33,7 @@ const BurgerIngredients = ({ data }) => {
         </ul>
       </div>
       <div className={styles.scroll}>
-        {type.map((e, index) => {
+      {type.map((e, index) => {
           return (
             <React.Fragment key={index}>
               <h2 className="text text_type_main-medium mt-10">{e.name}</h2>
@@ -54,11 +53,7 @@ const BurgerIngredients = ({ data }) => {
         })}
       </div>
     </section>
-  );
-};
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-};
-
-export default BurgerIngredients;
+     );
+    };
+    
+    export default BurgerIngredients;

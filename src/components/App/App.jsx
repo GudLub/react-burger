@@ -2,23 +2,20 @@ import { useState, useEffect } from "react";
 import AppHeader from "../AppHeader/AppHeader.jsx";
 import Main from "../Main/Main.jsx";
 import styles from "./App.module.scss";
+import { getIngredients } from "../../utils/API.jsx";
+import ConstructorContext from "../../utils/ConstructorContext.jsx";
+
 
 function App() {
-  const serverUrl = "https://norma.nomoreparties.space/api/ingredients";
-  const [state, setState] = useState([]);
+  
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      return await fetch(serverUrl)
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Ошибка ${res.status}`);
-        })
-        .then((data) => setState(data.data))
+      return await getIngredients()
+        .then((data) => setData(data.data))
         .catch((err) => console.log(err));
-    };
+    }
 
     getData();
   }, []);
@@ -26,7 +23,9 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Main data={state} />
+      <ConstructorContext.Provider value={data}>
+      <Main />
+      </ConstructorContext.Provider>
     </div>
   );
 }
