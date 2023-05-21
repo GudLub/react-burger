@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./BurgerConstructor.module.scss";
 import Modal from "../Modal/Modal.jsx";
 import {
@@ -8,19 +8,49 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { ingredientPropTypes } from "../../utils/PropTypes";
-import PropTypes from "prop-types";
+import ConstructorContext from "../../utils/ConstructorContext";
+import { getPost } from "../../utils/API.jsx"
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = () => {
+  const data = useContext(ConstructorContext);
+  const bun = data.find((e) => e.type === "bun");
+  const between = data.filter(e => e.type !== 'bun');
+  
+  const [total, setTotal] = useState(0);
   const [modal, setModal] = useState(false);
+  const [order, setOrder] = useState();
 
   const toggleModal = () => {
     setModal(!modal);
   };
+  
+  const ingredientId = () => {
+    const ingrId = [];
+    bun && ingrId.push(bun._id)
+    between.forEach(e => {ingrId.push(e._id);})
+    bun && ingrId.push(bun._id)
+    return ingrId;
+  }
+ 
 
-  const bun = data.find((e) => e.type === "bun");
+ 
+    const getOrder = async () => {
+      return await getPost({ingredientId})
+        .then((data) => setOrder(data.order.number))
+        .catch((err) => console.log(err));
+    }
 
-  // const between = data.filter(e => e.type !== 'bun')
+   
+
+
+  useEffect(() => {
+    let ingredientsPrice = 0;
+    between.forEach((ingredient) => {
+      ingredientsPrice += ingredient.price
+    });
+    bun && setTotal(bun.price*2 + ingredientsPrice)
+  }, [data])
+
   return (
     <>
       <ul className={styles.list}>
@@ -38,9 +68,8 @@ const BurgerConstructor = ({ data }) => {
 
         <li>
           <ul className={styles.scroll}>
-            {data.map((e) => {
+           {between && between.map((e) => {
               return (
-                e.type !== "bun" && (
                   <li key={e._id} className={styles.scrollEl}>
                     <DragIcon type="primary" />
                     <ConstructorElement
@@ -49,7 +78,6 @@ const BurgerConstructor = ({ data }) => {
                       thumbnail={e.image}
                     />
                   </li>
-                )
               );
             })}
           </ul>
@@ -67,11 +95,11 @@ const BurgerConstructor = ({ data }) => {
         )}
         <li className={styles.summary}>
           <div className={styles.price}>
-            <p className="text text_type_main-medium">610</p>
+            <p className="text text_type_main-medium">{total}</p>
             <CurrencyIcon type="primary" />
           </div>
           <Button
-            onClick={toggleModal}
+            onClick={() => {toggleModal(); getOrder()}}
             htmlType="button"
             type="primary"
             size="large"
@@ -82,15 +110,13 @@ const BurgerConstructor = ({ data }) => {
       </ul>
       {modal && (
         <Modal onClick={toggleModal}>
-          <OrderDetails />
+          <OrderDetails order={order}/>
         </Modal>
       )}
     </>
   );
 };
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-};
+
 
 export default BurgerConstructor;
