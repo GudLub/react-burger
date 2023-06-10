@@ -2,7 +2,7 @@ import styles from "./OrderDetails.module.scss";
 import done from "../../images/done.svg";
 import PropTypes from "prop-types";
 
-const OrderDetails = ({order}) => {
+const OrderDetails = ({ order }) => {
   return (
     <div className={`${styles.order} pt-30 pb-30`}>
       <p className="text text_type_digits-large">{order}</p>
@@ -22,6 +22,6 @@ const OrderDetails = ({order}) => {
 
 OrderDetails.propTypes = {
   numberOrder: PropTypes.number,
-}
+};
 
 export default OrderDetails;

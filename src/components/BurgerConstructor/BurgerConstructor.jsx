@@ -1,60 +1,70 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./BurgerConstructor.module.scss";
 import Modal from "../Modal/Modal.jsx";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import ConstructorContext from "../../utils/ConstructorContext";
-import { getPost } from "../../utils/API.jsx"
+import { getPost } from "../../services/actions/orderActions";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
+import ConstructorElementSorted from "../ConstructorElementSorted/ConstructorElementSorted";
+import {
+  addBun,
+  addIngredient,
+} from "../../services/actions/burgerConstructorActions.jsx";
 
 const BurgerConstructor = () => {
-  const data = useContext(ConstructorContext);
-  const bun = data.find((e) => e.type === "bun");
-  const between = data.filter(e => e.type !== 'bun');
-  
+  const dispatch = useDispatch();
+
+  const orderNumber = useSelector((store) => store.orderReducer.order);
+  const bun = useSelector((store) => store.burgerConstructorReducer.bun);
+  const ingredients = useSelector(
+    (store) => store.burgerConstructorReducer.ingredients
+  );
+
   const [total, setTotal] = useState(0);
   const [modal, setModal] = useState(false);
-  const [order, setOrder] = useState();
+  const [disabled, setDisabled] = useState(true);
 
   const toggleModal = () => {
     setModal(!modal);
   };
-  
-  const ingredientId = () => {
-    const ingrId = [];
-    bun && ingrId.push(bun._id)
-    between.forEach(e => {ingrId.push(e._id);})
-    bun && ingrId.push(bun._id)
-    return ingrId;
-  }
- 
 
- 
-    const getOrder = async () => {
-      return await getPost({ingredientId})
-        .then((data) => setOrder(data.order.number))
-        .catch((err) => console.log(err));
-    }
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      if (item.props.type === "bun") {
+        dispatch(addBun(item.props));
+      } else {
+        dispatch(addIngredient(item.props));
+        bun.length !== 0 && setDisabled(false);
+      }
+    },
+  });
 
-   
-
+  const submitOrder = () => {
+    const burger = [];
+    burger.push(bun);
+    burger.push(...ingredients);
+    burger.push(bun);
+    dispatch(getPost(burger.map((item) => item._id)));
+  };
 
   useEffect(() => {
     let ingredientsPrice = 0;
-    between.forEach((ingredient) => {
-      ingredientsPrice += ingredient.price
+    ingredients.forEach((ingredient) => {
+      ingredientsPrice += ingredient.price;
     });
-    bun && setTotal(bun.price*2 + ingredientsPrice)
-  }, [data])
+    bun && setTotal(bun.price * 2 + ingredientsPrice);
+  }, [bun, ingredients]);
 
   return (
     <>
-      <ul className={styles.list}>
-        {bun && (
+      <ul className={styles.list} ref={dropRef}>
+        {bun.length !== 0 && (
           <li>
             <ConstructorElement
               type="top"
@@ -65,24 +75,20 @@ const BurgerConstructor = () => {
             />
           </li>
         )}
-
         <li>
           <ul className={styles.scroll}>
-           {between && between.map((e) => {
-              return (
-                  <li key={e._id} className={styles.scrollEl}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={e.name}
-                      price={e.price}
-                      thumbnail={e.image}
-                    />
+            {ingredients.length > 0 &&
+              ingredients.map((e, index) => {
+                e.index = index;
+                return (
+                  <li key={e.uuid}>
+                    <ConstructorElementSorted ingredient={e} index={index} />
                   </li>
-              );
-            })}
+                );
+              })}
           </ul>
         </li>
-        {bun && (
+        {bun.length !== 0 && (
           <li>
             <ConstructorElement
               type="bottom"
@@ -94,12 +100,19 @@ const BurgerConstructor = () => {
           </li>
         )}
         <li className={styles.summary}>
-          <div className={styles.price}>
-            <p className="text text_type_main-medium">{total}</p>
-            <CurrencyIcon type="primary" />
-          </div>
+          {bun.length !== 0 && ingredients.length > 0 && (
+            <div className={styles.price}>
+              <p className="text text_type_main-medium">{total}</p>
+              <CurrencyIcon type="primary" />
+            </div>
+          )}
           <Button
-            onClick={() => {toggleModal(); getOrder()}}
+            disabled={disabled}
+            onClick={() => {
+              submitOrder();
+              toggleModal();
+              setDisabled(true);
+            }}
             htmlType="button"
             type="primary"
             size="large"
@@ -110,13 +123,11 @@ const BurgerConstructor = () => {
       </ul>
       {modal && (
         <Modal onClick={toggleModal}>
-          <OrderDetails order={order}/>
+          <OrderDetails order={orderNumber} />
         </Modal>
       )}
     </>
   );
 };
-
-
 
 export default BurgerConstructor;
