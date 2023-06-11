@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 export const ADD_BUN = "ADD_BUN";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const MOVE_INGREDIENT = "MOVE_INGREDIENT";
-export const DELET_INGREDIENT = "DELET_INGREDIENT";
+export const DELETE_INGREDIENT = "DELETE_INGREDIENT";
 
 export const addBun = (bun) => {
   return {
@@ -28,9 +28,9 @@ export const moveIngredient = (dragIndex, hoverIndex) => {
   };
 };
 
-export const deletIngredient = (ingredient, index) => {
+export const deleteIngredient = (ingredient, index) => {
   return {
-    type: DELET_INGREDIENT,
+    type: DELETE_INGREDIENT,
     ingredient,
     index,
   };

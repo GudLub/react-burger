@@ -1,7 +1,7 @@
 import {
-  GET_ORDERNUMBER_REQUEST,
-  GET_ORDERNUMBER_SUCCESSED,
-  GET_ORDERNUMBER_FAILED,
+  GET_ORDER_NUMBER_REQUEST,
+  GET_ORDER_NUMBER_SUCCESS,
+  GET_ORDER_NUMBER_FAILED,
 } from "../actions/orderActions.jsx";
 
 const initialState = {
@@ -11,12 +11,12 @@ const initialState = {
 
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ORDERNUMBER_REQUEST:
+    case GET_ORDER_NUMBER_REQUEST:
       return { ...state, loading: true };
-    case GET_ORDERNUMBER_SUCCESSED:
+    case GET_ORDER_NUMBER_SUCCESS:
       return { ...state, order: action.order, loading: false };
-    case GET_ORDERNUMBER_FAILED:
-      return { ...state, order: null, loading: false };
+    case GET_ORDER_NUMBER_FAILED:
+      return { ...state, ...initialState };
     default:
       return state;
   }

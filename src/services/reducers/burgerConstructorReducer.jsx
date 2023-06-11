@@ -2,9 +2,9 @@ import {
   ADD_BUN,
   ADD_INGREDIENT,
   MOVE_INGREDIENT,
-  DELET_INGREDIENT,
+  DELETE_INGREDIENT,
 } from "../actions/burgerConstructorActions.jsx";
-import { CLEAR_BURGERCONSTRUCTOR } from "../actions/orderActions.jsx";
+import { CLEAR_BURGER_CONSTRUCTOR } from "../actions/orderActions.jsx";
 
 const initialState = {
   bun: [],
@@ -34,7 +34,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         ingredients: movedIngredients,
       };
-    case DELET_INGREDIENT:
+    case DELETE_INGREDIENT:
       const newIngredientsState = { ...state };
       const indexIngredient = newIngredientsState.ingredients.findIndex(
         (ingredient) => ingredient.uuid === action.index
@@ -46,7 +46,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         ingredients: [...newIngredientsState.ingredients],
       };
-    case CLEAR_BURGERCONSTRUCTOR:
+    case CLEAR_BURGER_CONSTRUCTOR:
       return initialState;
     default:
       return state;

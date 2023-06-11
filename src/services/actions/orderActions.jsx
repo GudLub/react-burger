@@ -1,9 +1,9 @@
 import { serverUrl, checkResponse } from "../../utils/constances";
 
-export const GET_ORDERNUMBER_REQUEST = "GET_ORDERNUMBER_REQUEST";
-export const GET_ORDERNUMBER_SUCCESSED = "GET_ORDERNUMBER_SUCCESSED";
-export const GET_ORDERNUMBER_FAILED = "GET_ORDERNUMBER_FAILED";
-export const CLEAR_BURGERCONSTRUCTOR = "CLEAR_BURGERCONSTRUCTOR";
+export const GET_ORDER_NUMBER_REQUEST = "GET_ORDER_NUMBER_REQUEST";
+export const GET_ORDER_NUMBER_SUCCESS = "GET_ORDER_NUMBER_SUCCESS";
+export const GET_ORDER_NUMBER_FAILED = "GET_ORDER_NUMBER_FAILED";
+export const CLEAR_BURGER_CONSTRUCTOR = "CLEAR_BURGER_CONSTRUCTOR";
 
 const request = async (url, options) => {
   const res = await fetch(`${serverUrl}/${url}`, options);
@@ -20,24 +20,24 @@ const dataPost = (ingredients) => {
   };
 };
 
-export const getPost = (ingredients) => {
+export const createOrder = (ingredients) => {
   return (dispatch) => {
     dispatch({
-      type: GET_ORDERNUMBER_REQUEST,
+      type: GET_ORDER_NUMBER_REQUEST,
     });
     request("orders", dataPost(ingredients))
       .then((res) => {
         dispatch({
-          type: GET_ORDERNUMBER_SUCCESSED,
+          type: GET_ORDER_NUMBER_SUCCESS,
           order: res.order.number,
         });
         dispatch({
-          type: CLEAR_BURGERCONSTRUCTOR,
+          type: CLEAR_BURGER_CONSTRUCTOR,
         });
       })
       .catch((err) => {
         dispatch({
-          type: GET_ORDERNUMBER_FAILED,
+          type: GET_ORDER_NUMBER_FAILED,
           error: err.message,
         });
       });

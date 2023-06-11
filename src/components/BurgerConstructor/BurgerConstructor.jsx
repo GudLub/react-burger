@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { getPost } from "../../services/actions/orderActions";
+import { createOrder } from "../../services/actions/orderActions";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import ConstructorElementSorted from "../ConstructorElementSorted/ConstructorElementSorted";
@@ -50,8 +50,14 @@ const BurgerConstructor = () => {
     burger.push(bun);
     burger.push(...ingredients);
     burger.push(bun);
-    dispatch(getPost(burger.map((item) => item._id)));
+    dispatch(createOrder(burger.map((item) => item._id)));
   };
+
+  const handleOrderClick = () => {
+    submitOrder();
+    toggleModal();
+    setDisabled(true);
+  }
 
   useEffect(() => {
     let ingredientsPrice = 0;
@@ -108,11 +114,7 @@ const BurgerConstructor = () => {
           )}
           <Button
             disabled={disabled}
-            onClick={() => {
-              submitOrder();
-              toggleModal();
-              setDisabled(true);
-            }}
+            onClick={() => handleOrderClick()}
             htmlType="button"
             type="primary"
             size="large"

@@ -9,6 +9,7 @@ import {
   setIngredientDetails,
   clearIngredientDetails,
 } from "../../services/actions/ingredientActions";
+import { useMemo } from "react";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,14 @@ const BurgerIngredients = () => {
   const mainRef = useRef();
   const containerRef = useRef();
 
-  const type = [
-    { name: "Булки", type: "bun", ref: bunRef },
-    { name: "Соусы", type: "sauce", ref: sauceRef },
-    { name: "Начинки", type: "main", ref: mainRef },
-  ];
+  const type = useMemo(
+    () => [
+      { name: "Булки", type: "bun", ref: bunRef },
+      { name: "Соусы", type: "sauce", ref: sauceRef },
+      { name: "Начинки", type: "main", ref: mainRef },
+    ],
+    []
+  );
 
   const [current, setCurrent] = useState(type[0].type);
   const [modal, setModal] = useState(false);
@@ -65,36 +69,36 @@ const BurgerIngredients = () => {
       <div className="mt-10">
         <h1 className="text text_type_main-large pb-5">Собери&nbsp;бургер</h1>
         <ul className={styles.menu}>
-          {type.map((e, index) => {
+          {type.map((type, index) => {
             return (
               <Tab
                 key={index}
-                value={e.name}
-                active={current === e.type}
-                onClick={() => setCurrent(e.type)}
+                value={type.name}
+                active={current === type.type}
+                onClick={() => setCurrent(type.type)}
               >
-                {e.name}
+                {type.name}
               </Tab>
             );
           })}
         </ul>
       </div>
       <div className={styles.scroll} ref={containerRef} onScroll={handleScroll}>
-        {type.map((e, index) => {
+        {type.map((type, index) => {
           return (
             <React.Fragment key={index}>
-              <h2 className="text text_type_main-medium mt-10" ref={e.ref}>
-                {e.name}
+              <h2 className="text text_type_main-medium mt-10" ref={type.ref}>
+                {type.name}
               </h2>
               <ul className={styles.list}>
-                {data.map((evt) => {
+                {data.map((data) => {
                   return (
-                    evt.type === e.type && (
-                      <li key={evt._id} className="text text_type_main-medium">
+                    data.type === type.type && (
+                      <li key={data._id} className="text text_type_main-medium">
                         <Ingredient
-                          {...evt}
+                          {...data}
                           openModal={() => {
-                            openModal(evt);
+                            openModal(data);
                           }}
                         />
                       </li>

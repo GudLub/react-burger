@@ -7,9 +7,11 @@ import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
 import {
-  deletIngredient,
+  deleteIngredient,
   moveIngredient,
 } from "../../services/actions/burgerConstructorActions";
+import PropTypes from "prop-types";
+import { ingredientPropTypes } from "../../utils/PropTypes";
 
 const ConstructorElementSorted = ({ index, ingredient }) => {
   const { name, price, image, uuid, _id } = ingredient;
@@ -17,19 +19,19 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
   const ref = useRef();
 
   const removeIngredient = (ingredient, index) => {
-    dispatch(deletIngredient(ingredient, index));
+    dispatch(deleteIngredient(ingredient, index));
   };
 
   const [, drop] = useDrop({
     accept: "element",
-    hover(item) {
+    drop(item) {
       if (!ref.current) {
         return;
       }
-      const dragElIndex = item.index;
-      const hoverElIndex = { index };
-      dispatch(moveIngredient(dragElIndex, hoverElIndex));
-      item.index = hoverElIndex;
+      const dragElementIndex = item.index;
+      const hoverElementIndex = { index };
+      dispatch(moveIngredient(dragElementIndex, hoverElementIndex));
+      item.index = hoverElementIndex;
     },
   });
 
@@ -40,7 +42,7 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
   drag(drop(ref));
 
   return (
-    <div ref={ref} className={styles.scrollEl}>
+    <div ref={ref} className={styles.scrollElement}>
       <DragIcon type="primary" />
       <ConstructorElement
         text={name}
@@ -50,6 +52,11 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
       />
     </div>
   );
+};
+
+ConstructorElementSorted.propTypes = {
+  ingredient: ingredientPropTypes,
+  index: PropTypes.number.isRequired,
 };
 
 export default ConstructorElementSorted;
