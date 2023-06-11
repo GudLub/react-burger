@@ -11,7 +11,7 @@ import {
   moveIngredient,
 } from "../../services/actions/burgerConstructorActions";
 import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../utils/PropTypes";
+import { ingredientPropTypes } from "./types.jsx";
 
 const ConstructorElementSorted = ({ index, ingredient }) => {
   const { name, price, image, uuid, _id } = ingredient;
@@ -25,11 +25,11 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
   const [, drop] = useDrop({
     accept: "element",
     drop(item) {
-      if (!ref.current) {
-        return;
-      }
       const dragElementIndex = item.index;
-      const hoverElementIndex = { index };
+      const hoverElementIndex = index;
+      if (dragElementIndex === hoverElementIndex) {
+        return;
+      }  
       dispatch(moveIngredient(dragElementIndex, hoverElementIndex));
       item.index = hoverElementIndex;
     },
