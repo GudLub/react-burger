@@ -36,10 +36,10 @@ const BurgerConstructor = () => {
   const [, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
-      if (item.props.type === "bun") {
-        dispatch(addBun(item.props));
+      if (item.type === "bun") {
+        dispatch(addBun(item));
       } else {
-        dispatch(addIngredient(item.props));
+        dispatch(addIngredient(item));
         bun.length !== 0 && setDisabled(false);
       }
     },

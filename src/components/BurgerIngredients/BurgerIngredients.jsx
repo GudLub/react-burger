@@ -30,7 +30,7 @@ const BurgerIngredients = () => {
     []
   );
 
-  const [current, setCurrent] = useState(type[0].type);
+  const [current, setCurrent] = useState(type[0].ref);
   const [modal, setModal] = useState(false);
 
   const openModal = (ingredient) => {
@@ -48,20 +48,25 @@ const BurgerIngredients = () => {
       containerRef.current.getBoundingClientRect().top >
       bunRef.current.getBoundingClientRect().top
     ) {
-      setCurrent("bun");
+      setCurrent(bunRef);
     }
     if (
       containerRef.current.getBoundingClientRect().top >
       sauceRef.current.getBoundingClientRect().top
     ) {
-      setCurrent("sauce");
+      setCurrent(sauceRef);
     }
     if (
       containerRef.current.getBoundingClientRect().top >
       mainRef.current.getBoundingClientRect().top
     ) {
-      setCurrent("main");
+      setCurrent(mainRef);
     }
+  };
+
+  const handleClick = (ref) => {
+    setCurrent(ref);
+    ref.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -74,8 +79,10 @@ const BurgerIngredients = () => {
               <Tab
                 key={index}
                 value={type.name}
-                active={current === type.type}
-                onClick={() => setCurrent(type.type)}
+                active={current === type.ref}
+                onClick={() => {
+                  handleClick(type.ref);
+                }}
               >
                 {type.name}
               </Tab>

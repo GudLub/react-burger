@@ -8,22 +8,21 @@ import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 
-const Ingredient = (props) => {
-  const { image, name, price, openModal } = props;
+const Ingredient = ({ image, name, price, openModal, _id, type }) => {
   const { bun, ingredients } = useSelector(
     (store) => store.burgerConstructorReducer
   );
 
   const counter = useMemo(() => {
     let count = 0;
-    for (let { _id } of ingredients) if (_id === props._id) count++;
-    if (bun && bun._id === props._id) count += 2;
+    count = ingredients.filter((ing) => ing._id === _id).length;
+    if (bun && bun._id === _id) count += 2;
     return count;
-  }, [bun, props._id, ingredients]);
+  }, [bun, _id, ingredients]);
 
   const [, dragRef] = useDrag({
     type: "ingredient",
-    item: { props },
+    item: { image, name, price, openModal, _id, type },
   });
 
   return (
@@ -57,6 +56,7 @@ Ingredient.propTypes = {
   image: PropTypes.string.isRequired,
   openModal: PropTypes.func.isRequired,
   _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default Ingredient;

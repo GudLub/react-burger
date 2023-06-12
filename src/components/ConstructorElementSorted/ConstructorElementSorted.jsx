@@ -22,27 +22,55 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
     dispatch(deleteIngredient(ingredient, index));
   };
 
-  const [, drop] = useDrop({
-    accept: "element",
-    drop(item) {
-      const dragElementIndex = item.index;
-      const hoverElementIndex = index;
-      if (dragElementIndex === hoverElementIndex) {
-        return;
-      }  
-      dispatch(moveIngredient(dragElementIndex, hoverElementIndex));
-      item.index = hoverElementIndex;
-    },
-  });
+  const [{ handlerId }, drop] = useDrop({
+  accept: "element",
+  collect(monitor) {
+    return {
+      handlerId: monitor.getHandlerId(),
+    }
+  },
+  hover(item, monitor) {
+    if (!ref.current) {
+      return
+    }
+    const dragIndex = item.index
+    const hoverIndex = index
 
-  const [, drag] = useDrag({
-    type: "element",
-    item: { _id, index },
-  });
-  drag(drop(ref));
+    if (dragIndex === hoverIndex) {
+      return
+    }
+
+
+    const hoverBoundingRect = ref.current?.getBoundingClientRect()
+
+    const hoverMiddleY =
+      (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+    const clientOffset = monitor.getClientOffset()
+
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      return
+    }
+
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      return
+    }
+    dispatch(moveIngredient(dragIndex, hoverIndex))
+    item.index = hoverIndex
+  },
+})
+const [, drag] = useDrag({
+  type: 'element',
+  item: () => {
+    return { _id, index }
+  },
+})
+drag(drop(ref))
 
   return (
-    <div ref={ref} className={styles.scrollElement}>
+    <div ref={ref} data-handler-id={handlerId} className={styles.scrollElement}>
       <DragIcon type="primary" />
       <ConstructorElement
         text={name}
