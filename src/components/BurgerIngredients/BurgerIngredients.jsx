@@ -1,48 +1,113 @@
 import styles from "./BurgerIngredients.module.scss";
 import Ingredient from "../Ingredient/Ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useContext, useState } from "react";
-import ConstructorContext from "../../utils/ConstructorContext";
-
-const type = [
-  { name: "Булки", type: "bun" },
-  { name: "Соусы", type: "sauce" },
-  { name: "Начинки", type: "main" },
-];
+import React, { useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {
+  setIngredientDetails,
+  clearIngredientDetails,
+} from "../../services/actions/ingredientActions";
+import { useMemo } from "react";
 
 const BurgerIngredients = () => {
-  const [current, setCurrent] = useState(type[0].name);
-  const data = useContext(ConstructorContext);
+  const dispatch = useDispatch();
+
+  const data = useSelector((store) => store.burgerIngredientsReducer.data);
+
+  const bunRef = useRef();
+  const sauceRef = useRef();
+  const mainRef = useRef();
+  const containerRef = useRef();
+
+  const type = useMemo(
+    () => [
+      { name: "Булки", type: "bun", ref: bunRef },
+      { name: "Соусы", type: "sauce", ref: sauceRef },
+      { name: "Начинки", type: "main", ref: mainRef },
+    ],
+    []
+  );
+
+  const [current, setCurrent] = useState(type[0].ref);
+  const [modal, setModal] = useState(false);
+
+  const openModal = (ingredient) => {
+    dispatch(setIngredientDetails(ingredient));
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    dispatch(clearIngredientDetails());
+    setModal(false);
+  };
+
+  const handleScroll = () => {
+    if (
+      containerRef.current.getBoundingClientRect().top >
+      bunRef.current.getBoundingClientRect().top
+    ) {
+      setCurrent(bunRef);
+    }
+    if (
+      containerRef.current.getBoundingClientRect().top >
+      sauceRef.current.getBoundingClientRect().top
+    ) {
+      setCurrent(sauceRef);
+    }
+    if (
+      containerRef.current.getBoundingClientRect().top >
+      mainRef.current.getBoundingClientRect().top
+    ) {
+      setCurrent(mainRef);
+    }
+  };
+
+  const handleClick = (ref) => {
+    setCurrent(ref);
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section>
       <div className="mt-10">
         <h1 className="text text_type_main-large pb-5">Собери&nbsp;бургер</h1>
         <ul className={styles.menu}>
-          {type.map((e, index) => {
+          {type.map((type, index) => {
             return (
               <Tab
                 key={index}
-                value={e.name}
-                active={current === e.name}
-                onClick={setCurrent}
+                value={type.name}
+                active={current === type.ref}
+                onClick={() => {
+                  handleClick(type.ref);
+                }}
               >
-                {e.name}
+                {type.name}
               </Tab>
             );
           })}
         </ul>
       </div>
-      <div className={styles.scroll}>
-      {type.map((e, index) => {
+      <div className={styles.scroll} ref={containerRef} onScroll={handleScroll}>
+        {type.map((type, index) => {
           return (
             <React.Fragment key={index}>
-              <h2 className="text text_type_main-medium mt-10">{e.name}</h2>
+              <h2 className="text text_type_main-medium mt-10" ref={type.ref}>
+                {type.name}
+              </h2>
               <ul className={styles.list}>
-                {data.map((evt) => {
+                {data.map((data) => {
                   return (
-                    evt.type === e.type && (
-                      <li key={evt._id} className="text text_type_main-medium">
-                        <Ingredient ingredient={evt} />
+                    data.type === type.type && (
+                      <li key={data._id} className="text text_type_main-medium">
+                        <Ingredient
+                          {...data}
+                          openModal={() => {
+                            openModal(data);
+                          }}
+                        />
                       </li>
                     )
                   );
@@ -52,8 +117,13 @@ const BurgerIngredients = () => {
           );
         })}
       </div>
+      {modal && (
+        <Modal onClick={closeModal}>
+          <IngredientDetails />
+        </Modal>
+      )}
     </section>
-     );
-    };
-    
-    export default BurgerIngredients;
+  );
+};
+
+export default BurgerIngredients;
