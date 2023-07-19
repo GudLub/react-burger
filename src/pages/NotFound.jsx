@@ -8,13 +8,13 @@ const NotFound = () => {
         <div style={{
             display: 'flex', 
             flexDirection: 'column',
-            // marging: 'auto',
-            alignContent: 'center',
-            // justifyContent: 'center',
-            paddingTop: 180}}>
+            marging: 'auto',
+            alignItems: 'center',
+            paddingTop: 180
+            }}>
         <h2 className='text text_type_main-large'>Страница не найдена</h2>
         <Link to={"/"}>
-            <Button htmlType="button" type="secondary" size="small">
+            <Button htmlType="button" type="secondary" size="large">
               Назад к бургерам
             </Button>
           </Link>

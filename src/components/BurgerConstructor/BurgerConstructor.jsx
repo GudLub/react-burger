@@ -15,10 +15,11 @@ import {
   addBun,
   addIngredient,
 } from "../../services/actions/burgerConstructorActions.jsx";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigate();
   const orderNumber = useSelector((store) => store.orderReducer.order);
   const bun = useSelector((store) => store.burgerConstructorReducer.bun);
   const ingredients = useSelector(
@@ -29,9 +30,13 @@ const BurgerConstructor = () => {
   const [modal, setModal] = useState(false);
   const [disabled, setDisabled] = useState(true);
 
-  const toggleModal = () => {
-    setModal(!modal);
+  const closeModal = () => {
+    setModal(false);
   };
+  const openModal = () => {
+    submitOrder();
+    setModal(true);
+  }
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -54,10 +59,14 @@ const BurgerConstructor = () => {
   };
 
   const handleOrderClick = () => {
-    submitOrder();
-    toggleModal();
-    setDisabled(true);
-  }
+    if (!localStorage.getItem("refreshToken")) {
+      navigation("/login");
+    } else {
+      
+      openModal();
+      setDisabled(true);
+    }
+  };
 
   useEffect(() => {
     let ingredientsPrice = 0;
@@ -124,7 +133,7 @@ const BurgerConstructor = () => {
         </li>
       </ul>
       {modal && (
-        <Modal onClick={toggleModal}>
+        <Modal onClick={closeModal}>
           <OrderDetails order={orderNumber} />
         </Modal>
       )}

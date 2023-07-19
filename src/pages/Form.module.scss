@@ -1,26 +1,11 @@
-h2 {
-    margin: 0;
-  }
-  .login {
-    width: 480px;
-    display: flex;
-    flex-direction: column;
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
   margin: auto;
+  width: 480px;
   padding-top: 180px;
-  }
-  .edit {
-    display: grid;
-    gap: 24px;
-    justify-items: center;
-  }
-  .actions {
-    padding-top: 80px;
-    white-space: nowrap;
-  }
-  .action {
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  
+}
+
   

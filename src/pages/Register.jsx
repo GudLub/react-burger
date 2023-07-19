@@ -1,75 +1,85 @@
-import React from "react";
 import styles from "./Form.module.scss";
 import {
   PasswordInput,
+  EmailInput,
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../services/actions/userActions";
+import { useForm } from "../hooks/useForm.jsx";
 
 const Register = () => {
-    
-  const [passwordValue, setPasswordValue] = React.useState("");
-  const onChange = (e) => {
-    setPasswordValue(e.target.value);
+  const { values, handleChange } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const isRegisterSuccess = useSelector(
+    (store) => store.userReducer.isAuthChecked
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    dispatch(register(values));
+    if (isRegisterSuccess) {
+      navigate(-1);
+    }
   };
-  const [nameValue, setNameValue] = React.useState("");
-  const [emailValue, setEmailValue] = React.useState("");
-  const nameRef = React.useRef(null);
-  const emailRef = React.useRef(null);
 
   return (
-    <div className={styles.login}>
-      <div className={styles.edit}>
-        <h2 className="text text_type_main-medium">Регистрация</h2>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={(e) => setNameValue(e.target.value)}
-          value={nameValue}
-          name={"name"}
-          error={false}
-          ref={nameRef}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <Input
-          type={"text"}
-          placeholder={"E-mail"}
-          onChange={(e) => setEmailValue(e.target.value)}
-          value={emailValue}
-          name={"e-mail"}
-          error={false}
-          ref={emailRef}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <PasswordInput
-          onChange={onChange}
-          value={passwordValue}
-          name={"password"}
-          placeholder={"Пароль"}
-          icon={"ShowIcon"}
-        />
-        <Link to="/404">
-          <Button htmlType="button" type="primary" size="medium">
-            Зарегистрироваться
-          </Button>
-        </Link>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
+      <Input
+        type={"text"}
+        placeholder={"Имя"}
+        onChange={handleChange}
+        value={values.name}
+        name={"name"}
+        error={false}
+        errorText={"Ошибка"}
+        size={"default"}
+        extraClass="mb-6"
+      />
+      <EmailInput
+        onChange={handleChange}
+        value={values.email}
+        name={"email"}
+        isIcon={false}
+        extraClass="mb-6"
+      />
+      <PasswordInput
+        onChange={handleChange}
+        value={values.password}
+        name={"password"}
+        placeholder={"Пароль"}
+        icon={"ShowIcon"}
+        extraClass="mb-6"
+      />
+      <div>
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          extraClass="mb-20"
+          disabled={!values.name || !values.email || !values.password}
+        >
+          Зарегистрироваться
+        </Button>
       </div>
-      <div className={styles.actions}>
-        <div className={styles.action}>
-          <p className="text text_type_main-default text_color_inactive">
-            Уже зарегистрированы?
-          </p>
-          <Link to="/login">
-            <Button htmlType="button" type="secondary" size="small">
-              Войти
-            </Button>
+      <p className="text text_type_main-default text_color_inactive">
+        Уже зарегистрированы?&nbsp;
+        <span>
+          <Link to="/login" style={{ color: "#4C4CFF" }}>
+            Войти
           </Link>
-        </div>
-      </div>
-    </div>
+        </span>
+      </p>
+    </form>
   );
 };
 

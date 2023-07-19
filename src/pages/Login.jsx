@@ -1,71 +1,79 @@
-import React from "react";
 import styles from "./Form.module.scss";
 import {
   PasswordInput,
-  Input,
+  EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../services/actions/userActions";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/useForm.jsx";
 
 const Login = () => {
-  const [passwordValue, setPasswordValue] = React.useState("");
-  const onChange = (e) => {
-    setPasswordValue(e.target.value);
+  const { values, handleChange } = useForm({ email: "", password: "" });
+  const isLoginSuccess = useSelector(
+    (store) => store.userReducer.isAuthChecked
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(logIn(values));
+    if (isLoginSuccess) {
+      navigate(-1);
+    }
   };
-  const [emailValue, setEmailValue] = React.useState("");
-  const emailRef = React.useRef(null);
 
   return (
-    <div className={styles.login}>
-      <div className={styles.edit}>
-        <h2 className="text text_type_main-medium">Вход</h2>
-        <Input
-          type={"text"}
-          placeholder={"E-mail"}
-          onChange={(e) => setEmailValue(e.target.value)}
-          value={emailValue}
-          name={"e-mail"}
-          error={false}
-          ref={emailRef}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <PasswordInput
-          onChange={onChange}
-          value={passwordValue}
-          name={"password"}
-          placeholder={"Пароль"}
-          icon={"ShowIcon"}
-        />
-        <Link to="/404">
-          <Button htmlType="button" type="primary" size="medium">
-            Войти
-          </Button>
-        </Link>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className="text text_type_main-medium mb-6">Вход</h1>
+      <EmailInput
+        onChange={handleChange}
+        value={values.email}
+        name={"email"}
+        isIcon={false}
+        extraClass="mb-6"
+      />
+      <PasswordInput
+        onChange={handleChange}
+        value={values.password}
+        name={"password"}
+        placeholder={"Пароль"}
+        icon={"ShowIcon"}
+        extraClass="mb-6"
+      />
+      <div>
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          extraClass="mb-20"
+          disabled={!values.email || !values.password}
+        >
+          Войти
+        </Button>
       </div>
-      <div className={styles.actions}>
-        <div className={styles.action}>
-          <p className="text text_type_main-default text_color_inactive">
-            Вы - новый пользователь?
-          </p>
-          <Link to="/register">
-            <Button htmlType="button" type="secondary" size="small">
-              Зарегистрироваться
-            </Button>
+
+      <p className="text text_type_main-default text_color_inactive mb-4">
+        Вы - новый пользователь?&nbsp;
+        <span>
+          <Link to="/register" style={{ color: "#4C4CFF" }}>
+            Зарегистрироваться
           </Link>
-        </div>
-        <div className={styles.action}>
-          <p className="text text_type_main-default text_color_inactive">
-            Забыли пароль?
-          </p>
-          <Link to={"/forgot-password"}>
-            <Button htmlType="button" type="secondary" size="small">
-              Восстановить пароль
-            </Button>
+        </span>
+      </p>
+      <p className="text text_type_main-default text_color_inactive">
+        Забыли пароль?&nbsp;
+        <span>
+          <Link to="/forgot-password" style={{ color: "#4C4CFF" }}>
+            Восстановить пароль
           </Link>
-        </div>
-      </div>
-    </div>
+        </span>
+      </p>
+    </form>
   );
 };
 

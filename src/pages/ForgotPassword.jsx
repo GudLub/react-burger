@@ -1,49 +1,61 @@
-import React from "react";
 import styles from "./Form.module.scss";
 import {
-  Input,
+  EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { restorePassword } from "../services/actions/userActions.jsx";
+import { useForm } from "../hooks/useForm.jsx";
 
 const ForgotPassword = () => {
-  const [emailValue, setEmailValue] = React.useState("");
-  const inputRef = React.useRef(null);
+  const { values, handleChange } = useForm({ email: ''});
+  const isPostSuccess = useSelector(store => store.userReducer.success);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(restorePassword(values));
+    if (isPostSuccess) {
+      navigate('/reset-password');
+    }
+  }
 
   return (
-    <div className={styles.login}>
-      <div className={styles.edit}>
-        <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <Input
-          type={"text"}
-          placeholder={"Укажите e-mail"}
-          onChange={(e) => setEmailValue(e.target.value)}
-          value={emailValue}
-          name={"e-mail"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <Link to="/404">
-          <Button htmlType="button" type="primary" size="medium">
-            Восстановить
-          </Button>
-        </Link>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
+      <EmailInput
+        onChange={handleChange}
+        value={values.email}
+        name={"email"}
+        placeholder={"Укажите E-mail"}
+        isIcon={false}
+        extraClass="mb-6"
+      />
+      <div>
+        {/* <Link to="/reset-password"> */}
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          extraClass="mb-20"
+        >
+          Восстановить
+        </Button>
+        {/* </Link> */}
       </div>
-      <div className={styles.actions}>
-        <div className={styles.action}>
-          <p className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?
-          </p>
-          <Link to="/login">
-            <Button htmlType="button" type="secondary" size="small">
-              Войти
-            </Button>
+
+      <p className="text text_type_main-default text_color_inactive mb-4">
+        Вспомнили пароль?&nbsp;
+        <span>
+          <Link to="/login" style={{ color: "#4C4CFF" }}>
+            Войти
           </Link>
-        </div>
-      </div>
-    </div>
+        </span>
+      </p>
+    </form>
   );
 };
 

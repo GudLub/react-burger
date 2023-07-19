@@ -34,7 +34,7 @@ const AppHeader = () => {
         <button className={styles.button}>
           <ProfileIcon type="secondary" />
           <Link
-            to="/login"
+            to="/profile"
             className="text text_type_main-default text_color_inactive"
           >
             Личный&nbsp;кабинет
