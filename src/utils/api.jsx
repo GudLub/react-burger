@@ -4,13 +4,20 @@ export const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
-  return res.json()
-  .then(err => Promise.reject(err));
+  return Promise.reject(`Ошибка ${res.status}`);
 };
+
+const checkSuccess = (res) => {
+  if(res && res.success) {
+    return res;
+  }
+  return Promise.reject(`Ответ не success: ${res}`);
+}
 
 export const request = (url, options) => {
   return fetch(`${serverUrl}/${url}`, options)
-  .then(checkResponse);
+  .then(checkResponse)
+  .then(checkSuccess);
 };
 
 export const dataPost = (ingredients) => {
@@ -59,7 +66,7 @@ export const fetchWithRefresh = async (endpoint, options) => {
 };
 
 export const getUser = () => {
-  return fetchWithRefresh('auth/user', {
+  return request('auth/user', {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

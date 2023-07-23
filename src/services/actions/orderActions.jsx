@@ -9,6 +9,7 @@ export const createOrder = (ingredients) => {
   return (dispatch) => {
     dispatch({
       type: GET_ORDER_NUMBER_REQUEST,
+      order: "...loading",
     });
     dataPost(ingredients)
       .then((res) => {

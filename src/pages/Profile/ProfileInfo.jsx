@@ -43,7 +43,6 @@ const ProfileInfo = () => {
     onSubmit={onSubmit}
       style={{ display: "flex", flexDirection: "column", paddingLeft: "60px" }}
     >
-      
       <Input
         type={"text"}
         placeholder={"имя"}

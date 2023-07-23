@@ -51,9 +51,15 @@ export const setUser = (user) => ({
 
 export const getUserFetch = () => {
   return (dispatch) => {
-    return getUser().then((res) => {
+    return getUser()
+    .then((res) => {
       dispatch(setUser(res.user));
-    });
+    })
+    .catch ((err) => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      console.log(err);
+    })
   };
 };
 
@@ -65,8 +71,6 @@ export const register = ({ name, email, password }) => {
     registerPost(name, email, password)
       .then((res) => {
         if (res && res.success) {
-          localStorage.setItem("accessToken", res.accessToken);
-          localStorage.setItem("refreshToken", res.refreshToken);
           dispatch({
             type: REGISTER_SUCCESS,
             success: res.success,
@@ -75,7 +79,10 @@ export const register = ({ name, email, password }) => {
             accessToken: res.accessToken,
             refreshToken: res.refreshToken,
           });
+          localStorage.setItem("accessToken", res.accessToken);
+          localStorage.setItem("refreshToken", res.refreshToken);
           dispatch(setUser(res.user)); 
+          dispatch(setAuthChecked(true));
         } else {
           dispatch({
             type: REGISTER_FAILED,
@@ -98,6 +105,7 @@ export const restorePassword = ({email}) => {
     });
     currentMail(email)
       .then((res) => {
+        localStorage.setItem("email", res.email);
         dispatch({
           type: RESTORE_PASSWORD_SUCCESS,
           success: res.success,
@@ -119,6 +127,7 @@ export const resetPasswordFetch = ({password, token}) => {
     });
     resetPassword(password, token)
       .then((res) => {
+        localStorage.removeItem("email");
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
           reset: res.success,
@@ -133,12 +142,12 @@ export const resetPasswordFetch = ({password, token}) => {
   };
 };
 
-export const patchUserFetch = ({ name, email, password }) => {
+export const patchUserFetch = ({ name, email }) => {
   return (dispatch) => {
     dispatch({
       type: PATCH_USER_REQUEST,
     });
-    patchUser(name, email, password)
+    patchUser(name, email)
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -172,9 +181,7 @@ export const logIn = ({ email, password }) => {
     login(email, password)
       .then((res) => {
         if (res && res.success) {
-          localStorage.setItem("accessToken", res.accessToken);
-          localStorage.setItem("refreshToken", res.refreshToken);
-          dispatch({
+            dispatch({
             type: LOGIN_SUCCESS,
             isAuthChecked: res.success,
             accessToken: res.accessToken,
@@ -183,6 +190,8 @@ export const logIn = ({ email, password }) => {
             name: res.user.name,
           });
           dispatch(setUser(res.user));
+          localStorage.setItem("accessToken", res.accessToken);
+          localStorage.setItem("refreshToken", res.refreshToken);
           dispatch(setAuthChecked(true));
         } else {
           dispatch({
@@ -206,6 +215,7 @@ export const checkUserAuth = () => {
         .catch(() => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
+          localStorage.removeItem("email");
           dispatch(setUser(null));
         })
         .finally(() => dispatch(setAuthChecked(true)));
@@ -225,6 +235,7 @@ export const logOut = () => {
         if (res && res.success) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
+          localStorage.removeItem("email");
           dispatch({
             type: LOGOUT_SUCCESS,
             accessToken: "",

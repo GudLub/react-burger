@@ -35,7 +35,6 @@ const ForgotPassword = () => {
         extraClass="mb-6"
       />
       <div>
-        {/* <Link to="/reset-password"> */}
         <Button
           htmlType="submit"
           type="primary"
@@ -44,7 +43,6 @@ const ForgotPassword = () => {
         >
           Восстановить
         </Button>
-        {/* </Link> */}
       </div>
 
       <p className="text text_type_main-default text_color_inactive mb-4">

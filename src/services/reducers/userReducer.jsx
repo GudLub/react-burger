@@ -62,14 +62,16 @@ export const userReducer = (state = initialState, action) => {
         email: action.email,
         name: action.name,
         accessToken: action.accessToken,
-        refreshToken: action.refreshToken
+        refreshToken: action.refreshToken,
+        isAuthChecked: true,
       };
     case REGISTER_FAILED:
       return {
         ...state,
         loading: false,
         success: false,
-        error: action.error
+        error: action.error,
+        isAuthChecked: false,
       };
       case RESTORE_PASSWORD_REQUEST: {
         return {
@@ -123,7 +125,8 @@ export const userReducer = (state = initialState, action) => {
           loading: false,
           email: action.email,
           name: action.name,
-          success: action.success
+          success: action.success,
+          isAuthChecked: true,
         }
       }
       case PATCH_USER_FAILED: {

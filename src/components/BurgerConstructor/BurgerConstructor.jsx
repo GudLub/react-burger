@@ -21,6 +21,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const orderNumber = useSelector((store) => store.orderReducer.order);
+  const orderLoading = useSelector((store) => store.orderReducer.loading);
   const bun = useSelector((store) => store.burgerConstructorReducer.bun);
   const ingredients = useSelector(
     (store) => store.burgerConstructorReducer.ingredients
@@ -34,7 +35,6 @@ const BurgerConstructor = () => {
     setModal(false);
   };
   const openModal = () => {
-    submitOrder();
     setModal(true);
   }
 
@@ -45,7 +45,6 @@ const BurgerConstructor = () => {
         dispatch(addBun(item));
       } else {
         dispatch(addIngredient(item));
-        bun.length !== 0 && setDisabled(false);
       }
     },
   });
@@ -62,7 +61,7 @@ const BurgerConstructor = () => {
     if (!localStorage.getItem("refreshToken")) {
       navigation("/login");
     } else {
-      
+      submitOrder();
       openModal();
       setDisabled(true);
     }
@@ -74,7 +73,12 @@ const BurgerConstructor = () => {
       ingredientsPrice += ingredient.price;
     });
     bun && setTotal(bun.price * 2 + ingredientsPrice);
+    if (bun.length !== 0 && ingredients.length !== 0) {
+  setDisabled(false);
+}
   }, [bun, ingredients]);
+
+
 
   return (
     <>
@@ -132,11 +136,22 @@ const BurgerConstructor = () => {
           </Button>
         </li>
       </ul>
-      {modal && (
-        <Modal onClick={closeModal}>
+{modal && orderLoading && (
+<Modal onClick={closeModal}>
+        <p className="text text_type_main-medium m-20">Ваш заказ формируется, минутку...</p>
+        </Modal>
+)}
+{modal && !orderLoading && (
+  <Modal onClick={closeModal}>
           <OrderDetails order={orderNumber} />
         </Modal>
-      )}
+  )}
+
+
+
+     
+     
+      
     </>
   );
 };

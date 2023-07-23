@@ -29,7 +29,7 @@ const AppHeader = () => {
           </button>
         </div>
         <div className={styles.logo}>
-          <Logo />
+        <Link to='/'><Logo /></Link>
         </div>
         <button className={styles.button}>
           <ProfileIcon type="secondary" />

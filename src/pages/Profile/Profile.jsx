@@ -2,7 +2,8 @@ import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../services/actions/userActions";
-
+import { checkUserAuth } from "../../services/actions/userActions.jsx"
+import { useEffect } from "react";
 
 function Profile() {
     const location = useLocation();
@@ -15,6 +16,11 @@ function Profile() {
       dispatch(logOut());
       navigate('/');
     }
+
+    useEffect(() => {
+      dispatch(checkUserAuth());
+    }, [dispatch]);
+
   return (
     <div
       style={{ display: "flex", justifyContent: "left", marginTop: "120px", marginLeft: "60px" }}

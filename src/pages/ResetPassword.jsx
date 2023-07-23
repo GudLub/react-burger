@@ -4,10 +4,11 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordFetch } from "../services/actions/userActions.jsx"
+
 
 const ResetPassword = () => {
   const { values, handleChange } = useForm({ password: '', token: ''});
@@ -22,6 +23,10 @@ const ResetPassword = () => {
     if (isResetSuccess) {
       navigate('/login');
     }
+  }
+
+  if (!localStorage.getItem("email")) {
+    return <Navigate to={"/forgot-password"} replace={true} />;
   }
 
   return (
