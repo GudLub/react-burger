@@ -7,11 +7,16 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
+import { useNavigate, useMatch } from 'react-router-dom';
 
 const Ingredient = ({ image, name, price, openModal, _id, type }) => {
   const { bun, ingredients } = useSelector(
     (store) => store.burgerConstructorReducer
   );
+
+  const navigate = useNavigate();
+  const match = useMatch('ingredients/:id');
+  const { id } = match?.params || {};
 
   const counter = useMemo(() => {
     let count = 0;
@@ -27,7 +32,12 @@ const Ingredient = ({ image, name, price, openModal, _id, type }) => {
 
   return (
     <div
-      onClick={openModal}
+    onClick={() => {
+      if(id !== _id) {
+        navigate(`/ingredients/${_id}`, { state: { background: true } });
+      }
+      openModal();
+    }}
       draggable={true}
       ref={dragRef}
       className={styles.ingredient}
