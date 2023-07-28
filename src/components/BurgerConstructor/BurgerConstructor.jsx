@@ -36,7 +36,7 @@ const BurgerConstructor = () => {
   };
   const openModal = () => {
     setModal(true);
-  }
+  };
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -74,11 +74,9 @@ const BurgerConstructor = () => {
     });
     bun && setTotal(bun.price * 2 + ingredientsPrice);
     if (bun.length !== 0 && ingredients.length !== 0) {
-  setDisabled(false);
-}
+      setDisabled(false);
+    }
   }, [bun, ingredients]);
-
-
 
   return (
     <>
@@ -136,22 +134,18 @@ const BurgerConstructor = () => {
           </Button>
         </li>
       </ul>
-{modal && orderLoading && (
-<Modal onClick={closeModal}>
-        <p className="text text_type_main-medium m-20">Ваш заказ формируется, минутку...</p>
+      {modal && orderLoading && (
+        <Modal onClick={closeModal}>
+          <p className="text text_type_main-medium m-20">
+            Ваш заказ формируется, минутку...
+          </p>
         </Modal>
-)}
-{modal && !orderLoading && (
-  <Modal onClick={closeModal}>
+      )}
+      {modal && !orderLoading && (
+        <Modal onClick={closeModal}>
           <OrderDetails order={orderNumber} />
         </Modal>
-  )}
-
-
-
-     
-     
-      
+      )}
     </>
   );
 };

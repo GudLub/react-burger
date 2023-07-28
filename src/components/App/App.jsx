@@ -12,7 +12,10 @@ import NotFound from "../../pages/NotFound.jsx";
 import Profile from "../../pages/Profile/Profile.jsx";
 import ProfileInfo from "../../pages/Profile/ProfileInfo.jsx";
 import IngredientsId from "../../pages/IngredientsId.jsx";
-import { checkUserAuth, getUserFetch } from "../../services/actions/userActions.jsx";
+import Feed from "../../pages/Feed.jsx";
+import FeedInfo from "../../pages/FeedInfo.jsx";
+import ProfileOrders from "../../pages/Profile/ProfileOrders.jsx";
+import { checkUserAuth } from "../../services/actions/userActions.jsx";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute.jsx";
 
 import Modal from "../Modal/Modal.jsx";
@@ -31,7 +34,6 @@ function App() {
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
-    // dispatch(getUserFetch());
   }, [dispatch]);
 
   return (
@@ -41,10 +43,15 @@ function App() {
           <Route path="" element={<Home />} location={background || location}>
             <Route path="ingredients/:id" element={<IngredientsId />} />
           </Route>
+          <Route path="feed" element={<Feed />}>
+            <Route path=":id" element={<FeedInfo />} />
+          </Route>
           <Route path="login" element={<OnlyUnAuth component={<Login />} />} />
           <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
             <Route path="" element={<ProfileInfo />} />
-            <Route path="orders" element={<ProfileInfo />} />
+            <Route path="orders" element={<ProfileOrders />}>
+              <Route path=":id" element={<FeedInfo />} />
+            </Route>
           </Route>
           <Route
             path="register"

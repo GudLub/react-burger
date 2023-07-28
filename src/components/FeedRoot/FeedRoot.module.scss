@@ -1,0 +1,8 @@
+.main {
+  display: grid;
+  grid-template: 1fr / repeat(2, 50%);
+  gap: 60px;
+  max-width: 1240px;
+  margin: auto;
+  overflow: hidden;
+}
