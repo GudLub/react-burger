@@ -1,0 +1,78 @@
+.number {
+  display: flex;
+  justify-content: space-between;
+}
+.h2 {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.order {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+}
+.text {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  position: absolute;
+  z-index: 15;
+  top: 30%;
+  left: 30%;
+  margin: 0;
+}
+.image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  object-position: center;
+  background-color: #131316;
+  border-radius: 50px;
+  border: 2px solid rgba(128, 26, 178, 1);
+}
+.imgElement {
+  position: relative;
+}
+ul .imgElement:not(:last-child) {
+  margin-left: -15px;
+}
+
+ul .last::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  background: #1c1c21;
+  opacity: 0.6;
+  content: "";
+  border-radius: 50px;
+}
+.burgeringredients {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+}
+.price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+}
+.number {
+  display: flex;
+  justify-content: space-between;
+}
+.totalPrice {
+  display: flex;
+  gap: 8px;
+}

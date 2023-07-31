@@ -1,13 +1,18 @@
 import styles from "./Stats.module.scss";
+import { useMemo } from "react";
 
 const Stats = ({ orders, total, totalToday }) => {
-  const completedOrders = orders.filter(({ status }) => {
-    return status === "done";
-  });
+  const completedOrders = useMemo(() =>
+    orders.filter(({ status }) => {
+      return status === "done";
+    })
+  );
 
-  const ongoingOrders = orders.filter(({ status }) => {
-    return status !== "done";
-  });
+  const ongoingOrders = useMemo(() =>
+    orders.filter(({ status }) => {
+      return status !== "done";
+    })
+  );
 
   return (
     <section className={styles.section}>

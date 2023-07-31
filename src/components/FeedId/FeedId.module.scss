@@ -1,76 +1,42 @@
 .container {
-  max-width: 640px;
+  display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  padding: 40px 20px 60px;
-}
-
-.status {
-  color: #00cccc;
+  margin: 50px auto 60px;
+  max-width: 580px;
+  width: 100%;
 }
 
 .number {
-  text-align: center;
+  align-self: center;
+}
+.done {
+  color: #00cccc;
 }
 
-.list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 40px;
+.created {
+  color: white;
+}
+
+.cart_list {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  gap: 16px;
+  list-style-type: none;
+  margin: 0;
   max-height: 366px;
   overflow-y: scroll;
+  padding: 0;
+  scroll-behavior: smooth;
 }
 
-.list::-webkit-scrollbar {
-  width: 8px;
-  background-color: #2f2f37;
-}
-
-.list::-webkit-scrollbar-thumb {
-  width: 8px;
-  background-color: #8585ad;
-}
-.bottom {
+.info_box {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
-.price {
+.price_box {
   display: flex;
-  align-self: center;
-  column-gap: 8px;
-}
-
-.ingredients {
-  display: flex;
-  justify-content: space-between;
-  max-width: 608px;
-}
-
-.ingredientInfo {
-  display: flex;
-  column-gap: 16px;
-}
-.image {
-  width: 64px;
-  height: 64px;
-  border-radius: 50px;
-  border: 2px solid rgba(128, 26, 178, 1);
-  object-fit: cover;
-  object-position: center;
-}
-
-.text {
-  display: flex;
-  align-items: center;
-  max-width: 320px;
-}
-
-.priceIngredient {
-  display: flex;
-  column-gap: 9px;
-  align-items: center;
+  flex-direction: row;
+  gap: 12px;
 }

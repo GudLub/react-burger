@@ -1,119 +1,74 @@
 import styles from "./FeedId.module.scss";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useLocation, useParams } from "react-router-dom";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { diffToString, diffDays } from "../../utils/orders.jsx";
-import { v4 as uuidv4 } from "uuid";
+import { useMemo } from "react";
+import CartItem from "../CartItem/CartItem";
 
-const FeedId = () => {
+const FeedId = ( {orders} ) => {
   const { id } = useParams();
-  const location = useLocation();
-  const checkLocation = location.pathname.includes("feed");
-  const ingredients = useSelector(
+
+  const order = orders.find((order) => order._id === id);
+  const { name, number, createdAt, ingredients, status } = order;
+
+  const allIngredients = useSelector(
     (store) => store.burgerIngredientsReducer.data
   );
-  const orders = useSelector((store) => store.wsReducer.massiv.orders);
-  const ordersUser = useSelector(
-    (store) => store.wsProfileReducer.massiv.orders
+ 
+  
+  const orderIngredients = useMemo(() => {
+    if (ingredients) {
+      return ingredients.map((id) =>
+        allIngredients.find((item) => item._id === id)
+      );
+    }
+  }, [allIngredients]);
+
+  const totalPrice = orderIngredients.reduce(
+    (acc, i) => acc + (i?.price || 0),
+    0
   );
-  const ordersCurrent = checkLocation === true ? orders : ordersUser;
 
-  const [order, setOrder] = useState(null);
+ 
+  const setTextColor = () => {
+    if (order.status === "done") {
+      return `text text_type_main-default pb-15 ${styles.done}`;
+    } else if (order.status === "created") {
+      return `text text_type_main-default pb-15 ${styles.created}`;
+    } else if (order.status === "pending") {
+      return `text text_type_main-default pb-15 ${styles.created}`;
+    }
+  };
 
-  useEffect(() => {
-    setOrder(ordersCurrent.find((order) => order._id === id));
-  }, [ordersCurrent]);
-
-  if (order) {
-    const status = order.status === "done" ? "Выполнен" : "Готовится";
-    const orderDate = new Date(Date.parse(order.createdAt));
-    const todayDate = new Date();
-    const diffDate = diffDays(orderDate, todayDate);
-    const orderMinutes =
-      orderDate.getMinutes().toString().length < 2
-        ? `0${orderDate.getMinutes()}`
-        : orderDate.getMinutes();
-    const totalPrice = (burger) => {
-      let sum = 0;
-      burger.forEach((ing) => {
-        if (ing !== null) {
-          sum += ingredients.find((el) => el._id === ing).price;
-        }
-      });
-      return sum;
-    };
-    const countDublicate = (arr) => {
-      const counts = {};
-      arr.forEach((el) => {
-        const item = el;
-        counts[item] = counts[item] ? counts[item] + 1 : 1;
-      });
-      const duplicates = {};
-      for (const item in counts) {
-        if (counts[item] >= 1) {
-          duplicates[item] = counts[item];
-        }
-      }
-      return duplicates;
-    };
-
-    const ingredientsSorted = countDublicate(order.ingredients);
-    const orderSorted = Object.keys(ingredientsSorted);
-    const countSorted = Object.values(ingredientsSorted);
-
-    return (
-      <div className={styles.container}>
-        <p className={`text text_type_digits-default mb-10 ${styles.number}`}>
-          #{order.number}
-        </p>
-        <h2 className="text text_type_main-medium mb-3">{order.name}</h2>
-        <p className={`text text_type_main-default mb-15 ${styles.status}`}>
-          {status}
-        </p>
-        <h2 className="text text_type_main-medium mb-6">Состав:</h2>
-        <ul className={styles.list}>
-          {orderSorted.map((ing, i) => {
-            const price = ingredients.find((el) => el._id === ing).price;
-            return (
-              <li key={uuidv4()} className={styles.ingredients}>
-                <div className={styles.ingredientInfo}>
-                  <img
-                    src={ingredients.find((el) => el._id === ing).image_mobile}
-                    alt={ingredients.find((el) => el._id === ing).name}
-                    className={styles.image}
-                  />
-                  <p className={`${styles.text} text text_type_main-default`}>
-                    {ingredients.find((el) => el._id === ing).name}
-                  </p>
-                </div>
-                <div className={`${styles.priceIngredient}`}>
-                  <p className="text text_type_digits-default">{`${countSorted[i]} x ${price}`}</p>
-                  <CurrencyIcon type="primary" />
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <div className={styles.bottom}>
-          <p className="text text_type_main-default text_color_inactive">
-            {`${diffToString(diffDate)}, ${orderDate.getHours()}:${orderMinutes}
-            i-GMT${
-              orderDate.getTimezoneOffset() > 0
-                ? `+${orderDate.getTimezoneOffset() / 60}`
-                : orderDate.getTimezoneOffset() / 60
-            }`}
-          </p>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default">
-              {totalPrice(order.ingredients)}
-            </p>
-            <CurrencyIcon type="primary" />
-          </div>
+  return (
+    <div className={styles.container}>
+      <span className={`${styles.number} text text_type_digits-default pb-10`}>
+        #{number}
+      </span>
+      <p className="text text_type_main-medium pb-3">{name}</p>
+      <p className={setTextColor()}>
+        {status === "done" ? "Выполнен" : "Готовится"}
+      </p>
+      <p className="text text_type_main-medium pb-6">Состав:</p>
+      <ul className={`custom-scroll ${styles.cart_list}`}>
+        {orderIngredients.map((ingredient, key) => (
+          <CartItem ingredient={ingredient} key={key} />
+        ))}
+      </ul>
+      <div className={`pt-10 ${styles.info_box}`}>
+        <span className="text text_type_main-small text_color_inactive">
+          <FormattedDate date={new Date(createdAt)} />
+        </span>
+        <div className={styles.price_box}>
+          <p className="text text_type_digits-default">{totalPrice}</p>
+          <CurrencyIcon type="primary" />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default FeedId;
