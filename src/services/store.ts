@@ -2,7 +2,7 @@ import { rootReducer } from "./reducers/rootReducer";
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import { socketMiddleware } from "./middleware/socketMiddleware.jsx";
+import { socketMiddleware } from "./middleware/socketMiddleware";
 import {
   connect,
   disconnect,
@@ -11,7 +11,7 @@ import {
   wsMessage,
   wsError,
   wsConnecting,
-} from "../services/actions/wsActions.jsx";
+} from "../services/actions/wsActions";
 import {
   connectInProfile,
   disconnectInProfile,
@@ -20,7 +20,7 @@ import {
   wsCloseInProfile,
   wsMessageInProfile,
   wsErrorInProfile,
-} from "../services/actions/wsProfileActions.jsx";
+} from "../services/actions/wsProfileActions";
 
 const ordersMiddlware = socketMiddleware({
   wsConnect: connect,

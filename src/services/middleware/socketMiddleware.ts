@@ -1,6 +1,20 @@
-export const socketMiddleware = (wsActions) => {
-  return (store) => {
-    let socket = null;
+import { Middleware, MiddlewareAPI, ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "../../hooks";
+
+export type TWsActions = {
+  wsConnect: ActionCreatorWithPayload<string>;
+  wsSendMessage?: ActionCreatorWithPayload<unknown>;
+  onOpen: ActionCreatorWithoutPayload;
+  onClose: ActionCreatorWithoutPayload;
+  onError: ActionCreatorWithPayload<string>;
+  onMessage: ActionCreatorWithPayload<unknown>;
+  wsConnecting: ActionCreatorWithoutPayload;
+  wsDisconnect: ActionCreatorWithPayload<any> ;
+}
+
+export const socketMiddleware = (wsActions: TWsActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -28,18 +42,17 @@ export const socketMiddleware = (wsActions) => {
           dispatch(onOpen());
         };
 
-        socket.onerror = (event) => {
+        socket.onerror = () => {
           dispatch(onError("Error"));
         };
 
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-
           dispatch(onMessage(parsedData));
         };
 
-        socket.onclose = (event) => {
+        socket.onclose = () => {
           dispatch(onClose());
         };
 

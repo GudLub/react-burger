@@ -2,7 +2,7 @@ import FeedId from "../../components/FeedId/FeedId.jsx";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { connect, disconnect } from "../../services/actions/wsActions.jsx";
+import { connect, disconnect } from "../../services/actions/wsActions";
 
 
 const GET_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";

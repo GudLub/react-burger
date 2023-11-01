@@ -1,12 +1,17 @@
 import {
   SELECT_INGREDIENT,
   CLEAR_INGREDIENT,
-} from "../actions/ingredientActions.jsx";
+  TIngredientActions
+} from "../actions/ingredientActions";
+import { TIngredient } from "../../utils/types";
 
-const initialState = {
+type TInitialState = {
+  ingredient: TIngredient | {},
+}
+const initialState: TInitialState = {
   ingredient: {},
 };
-export const ingredientReducer = (state = initialState, action) => {
+export const ingredientReducer = (state = initialState, action: TIngredientActions) => {
   switch (action.type) {
     case SELECT_INGREDIENT: {
       return {

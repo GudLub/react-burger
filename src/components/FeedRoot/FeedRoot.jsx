@@ -1,12 +1,12 @@
 import styles from "./FeedRoot.module.scss";
-import Orders from "../Orders/Orders.jsx";
-import Stats from "../Stats/Stats.jsx";
+import Orders from "../Orders/Orders";
+import Stats from "../Stats/Stats";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   connect as connectOrders,
   disconnect as disconnectOrders,
-} from "../../services/actions/wsActions.jsx";
+} from "../../services/actions/wsActions";
 
 const GET_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
 

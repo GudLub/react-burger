@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./BurgerConstructor.module.scss";
-import Modal from "../Modal/Modal.jsx";
+import Modal from "../Modal/Modal";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -14,7 +14,7 @@ import ConstructorElementSorted from "../ConstructorElementSorted/ConstructorEle
 import {
   addBun,
   addIngredient,
-} from "../../services/actions/burgerConstructorActions.jsx";
+} from "../../services/actions/burgerConstructorActions";
 import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {

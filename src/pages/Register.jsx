@@ -8,7 +8,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../services/actions/userActions";
-import { useForm } from "../hooks/useForm.jsx";
+import { useForm } from "../hooks/useForm";
 
 const Register = () => {
   const { values, handleChange } = useForm({

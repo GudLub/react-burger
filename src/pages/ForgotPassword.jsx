@@ -5,8 +5,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { restorePassword } from "../services/actions/userActions.jsx";
-import { useForm } from "../hooks/useForm.jsx";
+import { restorePassword } from "../services/actions/userActions";
+import { useForm } from "../hooks/useForm";
 
 const ForgotPassword = () => {
   const { values, handleChange } = useForm({ email: ''});

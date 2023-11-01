@@ -6,9 +6,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useForm } from "../../hooks/useForm.jsx";
-import { patchUserFetch } from "../../services/actions/userActions.jsx"
-import Modal from "../../components/Modal/Modal.jsx";
+import { useForm } from "../../hooks/useForm";
+import { patchUserFetch } from "../../services/actions/userActions"
+import Modal from "../../components/Modal/Modal";
 
 const ProfileInfo = () => {
   const {name, email, success} = useSelector(store => store.userReducer.user);

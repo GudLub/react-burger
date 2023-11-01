@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../services/actions/userActions";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "../hooks/useForm.jsx";
+import { useForm } from "../hooks/useForm";
 
 const Login = () => {
   const { values, handleChange } = useForm({ email: "", password: "" });

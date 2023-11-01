@@ -1,27 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getIngredients } from "../../services/actions/burgerIngredientsActions.jsx";
+import { getIngredients } from "../../services/actions/burgerIngredientsActions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import Home from "../../pages/Home.jsx";
-import HeaderLayout from "../HeaderLayout/HeaderLayout.jsx";
-import Login from "../../pages/Login.jsx";
-import Register from "../../pages/Register.jsx";
-import ForgotPassword from "../../pages/ForgotPassword.jsx";
-import ResetPassword from "../../pages/ResetPassword.jsx";
-import NotFound from "../../pages/NotFound.jsx";
-import Profile from "../../pages/Profile/Profile.jsx";
-import ProfileInfo from "../../pages/Profile/ProfileInfo.jsx";
-import IngredientsId from "../../pages/IngredientsId.jsx";
-import Feed from "../../pages/Feed.jsx";
-import FeedInfo from "../../pages/FeedInfo/FeedInfo.jsx";
-import ProfileOrders from "../../pages/Profile/ProfileOrders.jsx";
-import { checkUserAuth } from "../../services/actions/userActions.jsx";
-import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute.jsx";
-import Modal from "../Modal/Modal.jsx";
-import ModalOverlay from "../ModalOverlay/ModalOverlay.jsx";
-import FeedInfoUser from "../../pages/FeedInfoUser.jsx";
-import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
-import FeedId from "../FeedId/FeedId.jsx"
+import Home from "../../pages/Home";
+import HeaderLayout from "../HeaderLayout/HeaderLayout";
+import Login from "../../pages/Login";
+import Register from "../../pages/Register";
+import ForgotPassword from "../../pages/ForgotPassword";
+import ResetPassword from "../../pages/ResetPassword";
+import NotFound from "../../pages/NotFound";
+import Profile from "../../pages/Profile/Profile";
+import ProfileInfo from "../../pages/Profile/ProfileInfo";
+import IngredientsId from "../../pages/IngredientsId";
+import Feed from "../../pages/Feed";
+import FeedInfo from "../../pages/FeedInfo/FeedInfo";
+import ProfileOrders from "../../pages/Profile/ProfileOrders";
+import { checkUserAuth } from "../../services/actions/userActions";
+import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
+import Modal from "../Modal/Modal";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import FeedInfoUser from "../../pages/FeedInfoUser";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import FeedId from "../FeedId/FeedId"
 
 function App() {
   const dispatch = useDispatch();

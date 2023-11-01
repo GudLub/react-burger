@@ -1,38 +1,35 @@
-const serverUrl =  "https://norma.nomoreparties.space/api";
+import { TResponseBody, THeaders, TOrder, TUser, TRegisterPost, TResetPassword, TLogin, TIngredient } from "./types";
 
-export const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
+const serverUrl =  "https://norma.nomoreparties.space/api/";
+
+const checkResponse = (res: Response) => {
+  return res.ok
+    ? res.json()
+    : res.json().then((err: string) => Promise.reject(err));
 };
 
-const checkSuccess = (res) => {
-  if(res && res.success) {
-    return res;
-  }
-  return Promise.reject(`Ответ не success: ${res}`);
-}
-
-export const request = (url, options) => {
-  return fetch(`${serverUrl}/${url}`, options)
+export const request = <T>(endpoint: RequestInfo | URL, options?: RequestInit): Promise<T> => {
+  return fetch(`${serverUrl}${endpoint}`, options)
   .then(checkResponse)
-  .then(checkSuccess);
 };
 
-export const dataPost = (ingredients) => {
+export const getDataFetch = (): Promise<TResponseBody<'data', TIngredient[]>> => {
+  return request("ingredients");
+};
+
+export const dataPost = (ingredients: (TIngredient | undefined)[]): Promise<TResponseBody<'order', Readonly<TOrder>>> => {
   return request('orders', {
     method: "POST",
     headers: { "Content-Type": "application/json",
     authorization: localStorage.getItem('accessToken')
-  },
+  } as (HeadersInit | undefined) & THeaders,
     body: JSON.stringify({
       ingredients: ingredients,
     }),
   });
 };
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<TResponseBody> => {
   return request('auth/token', {
     method: "POST",
     headers: {
@@ -44,11 +41,12 @@ export const refreshToken = () => {
   });
 };
 
-export const fetchWithRefresh = async (endpoint, options) => {
+export const fetchWithRefresh = async (endpoint: string, options: RequestInit & { headers: { authorization: string | null, "Content-Type": string } }
+): Promise<TResponseBody<'user', Readonly<TUser>>> => {
   try {
     const res = await fetch(`${serverUrl}${endpoint}`, options);
     return await checkResponse(res);
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken(); 
       if (!refreshData.success) {
@@ -65,85 +63,71 @@ export const fetchWithRefresh = async (endpoint, options) => {
   }
 };
 
-export const getUser = () => {
+export const getUser = (): Promise<TResponseBody<'user', Readonly<TUser>>> =>  {
   return request('auth/user', {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem('accessToken'),
-    },
+    } as (HeadersInit | undefined) & THeaders,
   })
 }
 
-export const registerPost = (name, email, password) => {
+export const registerPost = (obj: TRegisterPost): Promise<TResponseBody<'user', Readonly<TUser>>> => {
   return request('auth/register', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ 
-      "name": name,
-      "email": email, 
-      "password": password,       
-    }),
+    body: JSON.stringify(obj),
   });
 };
 
-export const currentMail = (email) => {
+export const currentMail = (email: string): Promise<TResponseBody<'password-reset', string>> => {
   return request('password-reset', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      "email": email
+      email
     })
   })
 }
-export const resetPassword = (password, token) => {
+export const resetPassword = (obj: TResetPassword): Promise<TResponseBody<'reset', string>> => {
   return request('password-reset/reset', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      "password": password, 
-      "token": token,
-    })
+    body: JSON.stringify(obj)
   })
 }
 
-export const login = (email, password) => {
+export const login = (obj: TLogin): Promise<TResponseBody<'user', Readonly<TUser>>> => {
   return request('auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      "email": email, 
-      "password": password, 
-    })
+    body: JSON.stringify(obj)
   })
 }
 
-export const logout = () => {
+export const logout = (): Promise<TResponseBody> => {
   return request('auth/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       authorization: localStorage.getItem('accessToken')
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     })
   })
 }
 
-export const patchUser = (email, password, name) => {
+export const patchUser = (obj: TUser) => {
   return fetchWithRefresh('auth/user', {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       authorization: localStorage.getItem('accessToken')
-    },
-    body: JSON.stringify({
-      "email": email, 
-      "password": password, 
-      "name": name,
-    }),
+    } as (HeadersInit | undefined) & THeaders,
+    body: JSON.stringify(obj),
   });
 };

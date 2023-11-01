@@ -4,11 +4,20 @@ import {
   wsClose,
   wsMessage,
   wsError
-} from '../actions/wsActions.jsx';
-import { WebsocketStatus } from '../../utils/orders.jsx';
+} from '../actions/wsActions';
+import { WebsocketStatus } from '../../utils/orders';
 import { createReducer } from '@reduxjs/toolkit';
+import { TWsOrder } from '../../utils/types';
 
-const initialState = {
+type TWsInitialState = {
+  status: string,
+  massiv: TWsOrder[],
+  connectionError: string,
+  loader: boolean,
+  total: number,
+  totalToday: number 
+}
+const initialState: TWsInitialState = {
   status: WebsocketStatus.OFFLINE,
   massiv: [],
   connectionError: '',
@@ -28,7 +37,7 @@ export const wsReducer = createReducer(initialState, (builder) => {
         state.connectionError = '';
         state.loader = true;
     })
-    .addCase(wsMessage, (state, action) => {
+    .addCase(wsMessage, (state, action: any) => {
       state.massiv = action.payload;
       state.total = action.payload;
       state.totalToday = action.payload;

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import {
   connectInProfile,
   disconnectInProfile,
-} from "../services/actions/wsProfileActions.jsx";
+} from "../services/actions/wsProfileActions";
 
 const GET_ORDERS_IN_PROFILE_SERVER_URL =
   "wss://norma.nomoreparties.space/orders";

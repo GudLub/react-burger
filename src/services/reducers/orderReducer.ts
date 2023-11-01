@@ -2,14 +2,19 @@ import {
   GET_ORDER_NUMBER_REQUEST,
   GET_ORDER_NUMBER_SUCCESS,
   GET_ORDER_NUMBER_FAILED,
-} from "../actions/orderActions.jsx";
+  TOrderActions
+} from "../actions/orderActions";
 
-const initialState = {
+type TInitialState = {
+  order: number,
+  loading: boolean,
+}
+const initialState: TInitialState = {
   order: 0,
   loading: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderActions) => {
   switch (action.type) {
     case GET_ORDER_NUMBER_REQUEST:
       return { ...state, loading: true };

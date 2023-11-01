@@ -2,14 +2,21 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-} from "../actions/burgerIngredientsActions.jsx";
+  TBurgerIngredientsActions
+} from "../actions/burgerIngredientsActions";
+import { TIngredient } from "../../utils/types";
 
-const initialState = {
+type TInitialState = {
+  data: TIngredient[] | null,
+  loading: boolean,
+}
+
+const initialState: TInitialState = {
   data: [],
   loading: false,
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action: TBurgerIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST:
       return { ...state, loading: true };

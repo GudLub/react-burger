@@ -3,15 +3,21 @@ import {
   ADD_INGREDIENT,
   MOVE_INGREDIENT,
   DELETE_INGREDIENT,
-} from "../actions/burgerConstructorActions.jsx";
-import { CLEAR_BURGER_CONSTRUCTOR } from "../actions/orderActions.jsx";
+  TBurgerConstructorActions
+} from "../actions/burgerConstructorActions";
+import { CLEAR_BURGER_CONSTRUCTOR, TClearBurgerConstructor } from "../actions/orderActions";
+import { TIngredient } from "../../utils/types";
 
-const initialState = {
+type TInitialState = {
+  bun: TIngredient[] | null;
+  ingredients: TIngredient[];
+}
+const initialState: TInitialState = {
   bun: [],
   ingredients: [],
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions | TClearBurgerConstructor) => {
   switch (action.type) {
     case ADD_BUN:
       return {

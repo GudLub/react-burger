@@ -4,11 +4,19 @@ import {
   wsCloseInProfile,
   wsMessageInProfile,
   wsErrorInProfile
-} from '../actions/wsProfileActions.jsx';
-import { WebsocketStatus } from '../../utils/orders.jsx';
+} from '../actions/wsProfileActions';
+import { WebsocketStatus } from '../../utils/orders';
 import { createReducer } from '@reduxjs/toolkit';
+import { TWsOrder } from '../../utils/types';
 
-const initialState = {
+type TWsProfileInitialState = {
+  status: string,
+  massiv: TWsOrder[],
+  connectionError: string,
+  loader: boolean,
+};
+
+const initialState: TWsProfileInitialState = {
   status: WebsocketStatus.OFFLINE,
   massiv: [],
   connectionError: '',
@@ -26,7 +34,7 @@ export const wsProfileReducer = createReducer(initialState, (builder) => {
         state.connectionError = '';
         state.loader = true;
     })
-    .addCase(wsMessageInProfile, (state, action) => {
+    .addCase(wsMessageInProfile, (state, action: any) => {
       state.massiv = action.payload;
       state.loader = false;
     })

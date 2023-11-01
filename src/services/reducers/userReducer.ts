@@ -22,7 +22,8 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
-} from "../actions/userActions.jsx";
+  TUserActions
+} from "../actions/userActions";
 
 const initialState = {
   isAuthChecked: false,
@@ -37,7 +38,7 @@ const initialState = {
   reset: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
   switch (action.type) {
     case SET_AUTH_CHECKED:
       return {
@@ -70,7 +71,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         success: false,
-        error: action.error,
         isAuthChecked: false,
       };
       case RESTORE_PASSWORD_REQUEST: {
@@ -160,7 +160,6 @@ export const userReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           failed: true,
-          error: action.error
         };
       }
       case LOGOUT_REQUEST: {

@@ -5,9 +5,9 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, Navigate } from "react-router-dom";
-import { useForm } from "../hooks/useForm.jsx";
+import { useForm } from "../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordFetch } from "../services/actions/userActions.jsx"
+import { resetPasswordFetch } from "../services/actions/userActions"
 
 
 const ResetPassword = () => {
