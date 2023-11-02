@@ -13,8 +13,7 @@ const GET_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
 const FeedRoot = () => {
   const dispatch = useDispatch();
 
-  const orders = useSelector((store) => store.wsReducer.massiv);
-
+  const orders = useSelector((store) => store.wsReducer.orders);
   useEffect(() => {
     dispatch(connectOrders(GET_ORDERS_SERVER_URL));
     return () => dispatch(disconnectOrders());

@@ -5,21 +5,22 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { logIn } from "../services/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
+import { FormEvent } from "react";
 
 const Login = () => {
   const { values, handleChange } = useForm({ email: "", password: "" });
-  const isLoginSuccess = useSelector(
+  const isLoginSuccess = useAppSelector(
     (store) => store.userReducer.isAuthChecked
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(logIn(values));
     if (isLoginSuccess) {

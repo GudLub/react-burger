@@ -1,6 +1,6 @@
 import FeedId from "../../components/FeedId/FeedId.jsx";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { useEffect } from "react";
 import { connect, disconnect } from "../../services/actions/wsActions";
 
@@ -8,7 +8,7 @@ import { connect, disconnect } from "../../services/actions/wsActions";
 const GET_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
 
 const FeedInfo = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
   useEffect(() => {
@@ -16,12 +16,13 @@ const FeedInfo = () => {
     return () => dispatch(disconnect());
   }, []);
 
-  const orders = useSelector((store) => store.wsReducer.massiv);
+  const { orders, success } = useAppSelector((store) => store.wsReducer.orders);
 
   const order =
-    orders.success && orders.orders.find((order) => order._id === id);
+    success && orders.find((order) => order._id === id);
 
-    return <section>{order && <FeedId orders={orders.orders} />}</section>;
+    return <section>{order && <FeedId orders={orders} />}</section>;
+
   };
   
   export default FeedInfo;

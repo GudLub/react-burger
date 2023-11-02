@@ -22,20 +22,14 @@ export type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
   export type TStatus = "created" | "pending" | "done";
   
   export type TWsOrder = {
+    success: boolean;
     _id: string;
-    ingredients: TIngredient[];
+    ingredients: string[];
     status: TStatus;
     name: string;
     createdAt: string;
     updatedAt: string;
     number: number;
-    price?: number;
-    owner?: {
-      name: string;
-      email: string;
-      createdAt: string;
-      updatedAt: string;
-    };
   }
 
   export type TUser = {

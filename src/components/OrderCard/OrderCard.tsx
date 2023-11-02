@@ -1,14 +1,15 @@
 import styles from "./OrderCard.module.scss";
 import { diffDays, diffToString } from "../../utils/orders";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import OrderCardImage from "./OrderCardImage";
 import { Link } from "react-router-dom";
+import { TWsOrder } from "../../utils/types";
 
 
-const OrderCard = ({ order, isOrderStatus }) => {
-  const ingredients = useSelector(
+const OrderCard = ({ order, isOrderStatus }: { order: TWsOrder, isOrderStatus: boolean }) => {
+  const ingredients = useAppSelector(
     (store) => store.burgerIngredientsReducer.data
   );
 
@@ -20,7 +21,7 @@ const OrderCard = ({ order, isOrderStatus }) => {
     }
   }, [ingredients]);
 
-  const totalPrice = orderIngredients.reduce(
+  const totalPrice = orderIngredients?.reduce(
     (acc, i) => acc + (i?.price || 0),
     0
   );

@@ -6,9 +6,10 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { register } from "../services/actions/userActions";
 import { useForm } from "../hooks/useForm";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { FormEvent } from "react";
 
 const Register = () => {
   const { values, handleChange } = useForm({
@@ -16,14 +17,14 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const isRegisterSuccess = useSelector(
+  const isRegisterSuccess = useAppSelector(
     (store) => store.userReducer.isAuthChecked
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     dispatch(register(values));
     if (isRegisterSuccess) {

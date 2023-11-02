@@ -1,18 +1,19 @@
 import styles from "./OrderCard.module.scss";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
 
-const OrderCardImage = ({ ingredients }) => {
-  const allIngredients = useSelector(
+const OrderCardImage = ({ ingredients }: { ingredients: string[]}) => {
+  const allIngredients = useAppSelector(
     (store) => store.burgerIngredientsReducer.data
   );
 
-  return (
+ return (
     <>
       {ingredients.map((ingredient, index) => {
         const img = allIngredients.find((el) => el._id === ingredient);
         if (ingredient !== null) {
-          if (index > 0 && index <= 5) {
+          if (index > 0 && index <= 5 && img !== undefined) {
             return (
+             
               <li
                 key={index}
                 style={{ zIndex: index }}
@@ -24,10 +25,11 @@ const OrderCardImage = ({ ingredients }) => {
                   className={styles.image}
                 />
               </li>
+             
             );
           }
           if (ingredients.length > 5) {
-            if (index === 0) {
+            if (index === 0 && img !== undefined) {
               return (
                 <li
                   key={index}
@@ -42,7 +44,7 @@ const OrderCardImage = ({ ingredients }) => {
                   />
                 </li>
               );
-            }
+              }
           }
         }
       })}

@@ -4,18 +4,19 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { restorePassword } from "../services/actions/userActions";
 import { useForm } from "../hooks/useForm";
+import { FormEvent } from "react";
 
 const ForgotPassword = () => {
   const { values, handleChange } = useForm({ email: ''});
-  const isPostSuccess = useSelector(store => store.userReducer.success);
+  const isPostSuccess = useAppSelector(store => store.userReducer.success);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(restorePassword(values));
     if (isPostSuccess) {

@@ -7,7 +7,7 @@ import {
 import { TIngredient } from "../../utils/types";
 
 type TInitialState = {
-  data: TIngredient[] | null,
+  data: TIngredient[],
   loading: boolean,
 }
 

@@ -11,17 +11,27 @@ import { TWsOrder } from '../../utils/types';
 
 type TWsInitialState = {
   status: string,
-  massiv: TWsOrder[],
+  orders: {
+    success: boolean;
+    orders: TWsOrder[];
+    total: number,
+    totalToday: number
+  },
   connectionError: string,
-  loader: boolean,
+  success: boolean,
   total: number,
   totalToday: number 
 }
 const initialState: TWsInitialState = {
   status: WebsocketStatus.OFFLINE,
-  massiv: [],
+  orders: {
+    success: false,
+    orders: [],
+    total: 0,
+    totalToday: 0
+  } ,
   connectionError: '',
-  loader: false,
+  success: false,
   total: 0,
   totalToday: 0
 };
@@ -30,18 +40,18 @@ export const wsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsConnecting, state => {
           state.status = WebsocketStatus.CONNECTING;
-          state.loader = true;
+          state.success = true;
       })
     .addCase(wsOpen, state => {
         state.status = WebsocketStatus.ONLINE;
         state.connectionError = '';
-        state.loader = true;
+        state.success = true;
     })
     .addCase(wsMessage, (state, action: any) => {
-      state.massiv = action.payload;
+      state.orders = action.payload;
       state.total = action.payload;
       state.totalToday = action.payload;
-      state.loader = false;
+      state.success = false;
     })
     .addCase(wsClose, state => {
         state.status = WebsocketStatus.OFFLINE;

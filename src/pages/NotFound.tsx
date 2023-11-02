@@ -8,7 +8,7 @@ const NotFound = () => {
         <div style={{
             display: 'flex', 
             flexDirection: 'column',
-            marging: 'auto',
+            margin: 'auto',
             alignItems: 'center',
             paddingTop: 180
             }}>

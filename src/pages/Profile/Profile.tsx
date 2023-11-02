@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks";
 import { logOut } from "../../services/actions/userActions";
 import { checkUserAuth } from "../../services/actions/userActions";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ function Profile() {
   const params = useParams();
   const background = location.state?.background;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onLogout = () => {
     dispatch(logOut());

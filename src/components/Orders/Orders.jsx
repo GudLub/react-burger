@@ -1,5 +1,5 @@
 import styles from "./Orders.module.scss";
-import OrderCard from "../OrderCard/OrderCard.jsx";
+import OrderCard from "../OrderCard/OrderCard";
 
 const Orders = ({ orders }) => {
   return (

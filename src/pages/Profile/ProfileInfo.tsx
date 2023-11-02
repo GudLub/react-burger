@@ -5,13 +5,14 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useForm } from "../../hooks/useForm";
 import { patchUserFetch } from "../../services/actions/userActions"
 import Modal from "../../components/Modal/Modal";
+import { FormEvent } from "react";
 
 const ProfileInfo = () => {
-  const {name, email, success} = useSelector(store => store.userReducer.user);
+  const {name, email, success} = useAppSelector(store => store.userReducer);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
@@ -23,15 +24,15 @@ const ProfileInfo = () => {
     email: email,
     password: '',
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(patchUserFetch(values));
     toggleModal();
   };
 
-  function onClickCancel(e) {
+  function onClickCancel(e: FormEvent) {
     e.preventDefault();
     setValues({ name: name, email: email, password: '' });
   }
@@ -59,7 +60,7 @@ const ProfileInfo = () => {
         onChange={handleChange}
         value={values.email}
         name={"email"}
-        icon={values.email ? "EditIcon" : "CloseIcon"}
+        // icon={values.email ? "EditIcon" : "CloseIcon"}
         extraClass="mb-6"
       />
       <PasswordInput

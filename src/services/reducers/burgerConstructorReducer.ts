@@ -9,7 +9,7 @@ import { CLEAR_BURGER_CONSTRUCTOR, TClearBurgerConstructor } from "../actions/or
 import { TIngredient } from "../../utils/types";
 
 type TInitialState = {
-  bun: TIngredient[] | null;
+  bun: TIngredient[];
   ingredients: TIngredient[];
 }
 const initialState: TInitialState = {

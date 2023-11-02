@@ -6,18 +6,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordFetch } from "../services/actions/userActions"
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { resetPasswordFetch } from "../services/actions/userActions";
+import { FormEvent } from "react";
 
 
 const ResetPassword = () => {
   const { values, handleChange } = useForm({ password: '', token: ''});
-  const isResetSuccess = useSelector(store => store.userReducer.reset);
+  const isResetSuccess = useAppSelector(store => store.userReducer.reset);
   
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(resetPasswordFetch(values));
     if (isResetSuccess) {

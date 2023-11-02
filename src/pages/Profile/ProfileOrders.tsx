@@ -1,6 +1,6 @@
 import styles from "./ProfileOrders.module.scss";
 import OrderCard from "../../components/OrderCard/OrderCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect } from "react";
 import {
   connectInProfile,
@@ -11,14 +11,15 @@ const GET_ORDERS_IN_PROFILE_SERVER_URL =
   "wss://norma.nomoreparties.space/orders";
 
 const ProfileOrders = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const accessTokenWithBearer = localStorage.getItem("accessToken");
-  const accessTokenWithoutBearer = accessTokenWithBearer.slice(7);
+  const accessTokenWithoutBearer = accessTokenWithBearer?.slice(7);
 
-  const orders = useSelector((store) => store.wsProfileReducer.massiv);
+  const { orders, success } = useAppSelector((store) => store.wsProfileReducer.orders);
 
-  const ordersReverse = orders.success ? [...orders.orders].reverse() : [];
+const ordersReverse = orders.slice()
+.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
   useEffect(() => {
     dispatch(
@@ -37,12 +38,12 @@ const ProfileOrders = () => {
 
   return (
     <>
-      {orders.success ? (
+      {success ? (
         <ul className={styles.scroll}>
           {ordersReverse.map((order) => {
             return (
               <li key={order.number}>
-                <OrderCard order={order} isOrderStatus={true} nav='profile/orders' />
+                <OrderCard order={order} isOrderStatus={true}/>
               </li>
             );
           })}
