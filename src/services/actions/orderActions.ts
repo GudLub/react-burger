@@ -39,7 +39,7 @@ const getOrderNumberFailed = (): TGetOrderNumberFailed => ({
   type: GET_ORDER_NUMBER_FAILED,
 })
 
-export const createOrder = (ingredients: TIngredient[]) => {
+export const createOrder = (ingredients: string[]) => {
   return (dispatch: AppDispatch) => {
     dispatch(getOrderNumberRequest());
     dataPost(ingredients)

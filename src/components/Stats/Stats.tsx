@@ -1,18 +1,20 @@
 import styles from "./Stats.module.scss";
-import { useMemo } from "react";
+import { useMemo, FC } from "react";
+import { TWsOrder } from "../../utils/types";
 
-const Stats = ({ orders, total, totalToday }) => {
-  const completedOrders = useMemo(() =>
-    orders.filter(({ status }) => {
-      return status === "done";
-    })
-  );
+type TStats = {
+  orders: TWsOrder[],
+  total: number,
+  totalToday: number
+}
 
-  const ongoingOrders = useMemo(() =>
-    orders.filter(({ status }) => {
-      return status !== "done";
-    })
-  );
+const Stats: FC<TStats> = ({ orders, total, totalToday }) => {
+  const completedOrders = useMemo(() => 
+    orders.filter((item) => item.status === 'done'), [orders]);
+ 
+
+  const ongoingOrders = useMemo(() => 
+    orders.filter((item) => item.status !== 'done'), [orders]);
 
   return (
     <section className={styles.section}>

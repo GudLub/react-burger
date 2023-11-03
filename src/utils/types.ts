@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
     [key in TDataKey]: TDataType;
   } & {
@@ -85,3 +87,10 @@ export type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
     accessToken: string;
     refreshToken: string;
   }
+
+  export type TModal= {
+    children: ReactElement,
+    onClick: () => void,
+  }
+  
+ 

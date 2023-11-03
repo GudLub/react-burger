@@ -3,22 +3,26 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef } from "react";
+import { useRef,FC } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
 import {
   deleteIngredient,
   moveIngredient,
 } from "../../services/actions/burgerConstructorActions";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "./types.jsx";
+import { TIngredient } from "../../utils/types";
 
-const ConstructorElementSorted = ({ index, ingredient }) => {
-  const { name, price, image, uuid, _id } = ingredient;
+type TConstructorElementSorted = {
+  index: number,
+  ingredient: TIngredient,
+}
+
+const ConstructorElementSorted: FC<TConstructorElementSorted> = ({ index, ingredient }) => {
+  // const { name, price, image, uuid, _id } = ingredient;
   const dispatch = useDispatch();
-  const ref = useRef();
+  const ref = useRef<HTMLInputElement>(null);
 
-  const removeIngredient = (ingredient, index) => {
+  const removeIngredient = (ingredient: TIngredient, index: string) => {
     dispatch(deleteIngredient(ingredient, index));
   };
 
@@ -29,7 +33,7 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
       handlerId: monitor.getHandlerId(),
     }
   },
-  hover(item, monitor) {
+  hover(item: any, monitor) {
     if (!ref.current) {
       return
     }
@@ -46,7 +50,7 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
     const hoverMiddleY =
       (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
-    const clientOffset = monitor.getClientOffset()
+    const clientOffset: any = monitor.getClientOffset()
 
     const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
@@ -61,6 +65,8 @@ const ConstructorElementSorted = ({ index, ingredient }) => {
     item.index = hoverIndex
   },
 })
+const _id = ingredient._id;
+
 const [, drag] = useDrag({
   type: 'element',
   item: () => {
@@ -73,18 +79,13 @@ drag(drop(ref))
     <div ref={ref} data-handler-id={handlerId} className={styles.scrollElement}>
       <DragIcon type="primary" />
       <ConstructorElement
-        text={name}
-        price={price}
-        thumbnail={image}
-        handleClose={() => removeIngredient({ ingredient }, uuid)}
+        text={ingredient.name}
+        price={ingredient.price}
+        thumbnail={ingredient.image}
+        handleClose={() => removeIngredient(ingredient , ingredient.uuid)}
       />
     </div>
   );
-};
-
-ConstructorElementSorted.propTypes = {
-  ingredient: ingredientPropTypes,
-  index: PropTypes.number.isRequired,
 };
 
 export default ConstructorElementSorted;

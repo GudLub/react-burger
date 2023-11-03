@@ -15,12 +15,14 @@ const ProfileOrders = () => {
 
   const accessTokenWithBearer = localStorage.getItem("accessToken");
   const accessTokenWithoutBearer = accessTokenWithBearer?.slice(7);
+  const orders = useAppSelector((store) => store.wsProfileReducer.orders.orders);
+  const success = useAppSelector((store) => store.wsProfileReducer.orders.success);
 
-  const { orders, success } = useAppSelector((store) => store.wsProfileReducer.orders);
-
-const ordersReverse = orders.slice()
-.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-
+// const ordersReverse = orders.slice()
+// .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+// const ordersReverse = orders ? [...orders].reverse() : [];
+console.log(orders);
+// console.log(ordersReverse);
   useEffect(() => {
     dispatch(
       connectInProfile(
@@ -40,7 +42,7 @@ const ordersReverse = orders.slice()
     <>
       {success ? (
         <ul className={styles.scroll}>
-          {ordersReverse.map((order) => {
+          {orders.map((order) => {
             return (
               <li key={order.number}>
                 <OrderCard order={order} isOrderStatus={true}/>

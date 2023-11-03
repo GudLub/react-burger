@@ -1,4 +1,4 @@
-import FeedRoot from "../components/FeedRoot/FeedRoot.jsx";
+import FeedRoot from "../components/FeedRoot/FeedRoot";
 
 const Feed = () => {
   return <FeedRoot />;

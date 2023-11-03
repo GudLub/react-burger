@@ -1,6 +1,6 @@
 import styles from "./BurgerConstructorRoot.module.scss";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients.jsx";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.jsx";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { Outlet, useParams, useLocation } from 'react-router-dom';

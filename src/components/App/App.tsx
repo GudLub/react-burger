@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks";
 import { getIngredients } from "../../services/actions/burgerIngredientsActions";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "../../pages/Home";
@@ -19,15 +19,19 @@ import { checkUserAuth } from "../../services/actions/userActions";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import FeedInfoUser from "../../pages/FeedInfoUser";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import FeedId from "../FeedId/FeedId"
+
+type TStateLocation = Location & {
+  state: {
+    background: Location;
+  };
+}
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const background = location.state?.background;
+  const background: TStateLocation  = location.state && location.state.background;
 
   const closeModal = () => {
     navigate(-1);
@@ -40,36 +44,36 @@ function App() {
 
   return (
     <>
-      <Routes>
+      <Routes location={background || location}>
         <Route path="/" element={<HeaderLayout />}>
-          <Route path="" element={<Home />} location={background || location}>
+          <Route path="" element={<Home />}>
             <Route path="ingredients/:id" element={<IngredientsId />} />
           </Route>
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:id" element={<FeedInfo />} />
-          <Route path="login" element={<OnlyUnAuth component={<Login />} />} />
-          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+          <Route path="login" element={<OnlyUnAuth onlyUnAuth={true} component={<Login />} />} />
+          <Route path="profile" element={<OnlyAuth onlyUnAuth={false} component={<Profile />} />}>
             <Route path="" element={<ProfileInfo />} />
           </Route> 
           
           
-          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+          <Route path="profile" element={<OnlyAuth onlyUnAuth={false} component={<Profile />} />}>
             <Route path="orders" element={<ProfileOrders />}  />
           </Route> 
-          <Route path="profile" element={<OnlyAuth component={<Profile />} />}>
+          <Route path="profile" element={<OnlyAuth onlyUnAuth={false} component={<Profile />} />}>
             <Route path="orders/:id" element={<FeedInfo/>}  />
           </Route> 
           <Route
             path="register"
-            element={<OnlyUnAuth component={<Register />} />}
+            element={<OnlyUnAuth onlyUnAuth={true} component={<Register />} />}
           />
           <Route
             path="forgot-password"
-            element={<OnlyUnAuth component={<ForgotPassword />} />}
+            element={<OnlyUnAuth onlyUnAuth={true} component={<ForgotPassword />} />}
           />
           <Route
             path="reset-password"
-            element={<OnlyUnAuth component={<ResetPassword />} />}
+            element={<OnlyUnAuth onlyUnAuth={true} component={<ResetPassword />} />}
           />
           <Route path="*" element={<NotFound />} />
         </Route>

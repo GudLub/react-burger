@@ -1,8 +1,9 @@
-import AppHeader from "../AppHeader/AppHeader.jsx";
+import AppHeader from "../AppHeader/AppHeader";
 import styles from "./HeaderLayout.module.scss";
 import { Outlet } from 'react-router-dom'
+import { FC } from "react";
 
-const HeaderLayout = () => {
+const HeaderLayout: FC = () => {
   return (
     <div className={styles.app}>
       <AppHeader />

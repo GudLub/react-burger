@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { createOrder } from "../../services/actions/orderActions";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useDrop } from "react-dnd";
 import ConstructorElementSorted from "../ConstructorElementSorted/ConstructorElementSorted";
 import {
@@ -16,16 +16,17 @@ import {
   addIngredient,
 } from "../../services/actions/burgerConstructorActions";
 import { useNavigate } from "react-router-dom";
+import { TIngredient } from "../../utils/types";
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigation = useNavigate();
-  const orderNumber = useSelector((store) => store.orderReducer.order);
-  const orderLoading = useSelector((store) => store.orderReducer.loading);
-  const bun = useSelector((store) => store.burgerConstructorReducer.bun);
-  const ingredients = useSelector(
-    (store) => store.burgerConstructorReducer.ingredients
-  );
+  const orderNumber = useAppSelector((store) => store.orderReducer.order);
+  const orderLoading = useAppSelector((store) => store.orderReducer.loading);
+  const bun = useAppSelector((store) => store.burgerConstructorReducer.bun);
+  const ingredients = useAppSelector((store) => store.burgerConstructorReducer.ingredients);
+
+
 
   const [total, setTotal] = useState(0);
   const [modal, setModal] = useState(false);
@@ -40,7 +41,7 @@ const BurgerConstructor = () => {
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
       if (item.type === "bun") {
         dispatch(addBun(item));
       } else {
@@ -50,11 +51,14 @@ const BurgerConstructor = () => {
   });
 
   const submitOrder = () => {
-    const burger = [];
-    burger.push(bun);
-    burger.push(...ingredients);
-    burger.push(bun);
-    dispatch(createOrder(burger.map((item) => item._id)));
+    // const burger: TIngredient[] = [];
+    // burger.push(bun);
+    // burger.push(...ingredients);
+    // burger.push(bun);
+    const ingredientsId = ingredients.map(item => item._id);
+    const bunId = bun[0]._id;
+    const burger = [bunId, ...ingredientsId, bunId];
+    dispatch(createOrder(burger));
   };
 
   const handleOrderClick = () => {
@@ -69,16 +73,20 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     let ingredientsPrice = 0;
-    ingredients.forEach((ingredient) => {
+    ingredients?.forEach((ingredient) => {
       ingredientsPrice += ingredient.price;
     });
-    bun && setTotal(bun.price * 2 + ingredientsPrice);
+    let bunPrice = 0;
+    bun?.forEach((bun) => {
+      bunPrice += bun.price;
+    });
+    setTotal(bunPrice + ingredientsPrice);
     if (bun.length !== 0 && ingredients.length !== 0) {
       setDisabled(false);
     }
   }, [bun, ingredients]);
 
-  return (
+  return bun ? (
     <>
       <ul className={styles.list} ref={dropRef}>
         {bun.length !== 0 && (
@@ -86,9 +94,9 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${bun.name} (верх)`}
-              price={bun.price}
-              thumbnail={bun.image}
+              text={`${bun[0].name} (верх)`}
+              price={bun[0].price}
+              thumbnail={bun[0].image}
             />
           </li>
         )}
@@ -110,9 +118,9 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image}
+              text={`${bun[0].name} (низ)`}
+              price={bun[0].price}
+              thumbnail={bun[0].image}
             />
           </li>
         )}
@@ -147,6 +155,8 @@ const BurgerConstructor = () => {
         </Modal>
       )}
     </>
+  ) : (
+    <p>Error</p>
   );
 };
 

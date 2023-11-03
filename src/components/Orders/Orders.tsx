@@ -1,7 +1,12 @@
 import styles from "./Orders.module.scss";
 import OrderCard from "../OrderCard/OrderCard";
+import { TWsOrder } from "../../utils/types";
+import { FC } from "react";
 
-const Orders = ({ orders }) => {
+type TOrders = {
+  orders: TWsOrder[]
+}
+const Orders: FC<TOrders> = ({ orders }) => {
   return (
     <section>
       <h1 className="text text_type_main-large pb-5 mt-10">
@@ -12,7 +17,7 @@ const Orders = ({ orders }) => {
         {orders.map((order) => {
           return (
             <li key={order.number}>
-              <OrderCard order={order} isOrderStatus={false} nav='feed'/>
+              <OrderCard order={order} isOrderStatus={false}/>
             </li>
           );
         })}

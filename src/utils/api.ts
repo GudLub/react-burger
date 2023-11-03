@@ -17,7 +17,7 @@ export const getDataFetch = (): Promise<TResponseBody<'data', TIngredient[]>> =>
   return request("ingredients");
 };
 
-export const dataPost = (ingredients: (TIngredient | undefined)[]): Promise<TResponseBody<'order', Readonly<TOrder>>> => {
+export const dataPost = (ingredients: (string | undefined)[]): Promise<TResponseBody<'order', Readonly<TOrder>>> => {
   return request('orders', {
     method: "POST",
     headers: { "Content-Type": "application/json",

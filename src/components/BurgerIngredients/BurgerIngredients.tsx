@@ -2,24 +2,25 @@ import styles from "./BurgerIngredients.module.scss";
 import Ingredient from "../Ingredient/Ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {
   setIngredientDetails,
   clearIngredientDetails,
 } from "../../services/actions/ingredientActions";
-import { useMemo } from "react";
+import { useMemo, FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { TIngredient } from "../../utils/types";
 
-const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+const BurgerIngredients: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const data = useSelector((store) => store.burgerIngredientsReducer.data);
+  const data = useAppSelector((store) => store.burgerIngredientsReducer.data);
 
-  const bunRef = useRef();
-  const sauceRef = useRef();
-  const mainRef = useRef();
-  const containerRef = useRef();
+  const bunRef = useRef<HTMLInputElement>(null);
+  const sauceRef = useRef<HTMLInputElement>(null);
+  const mainRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLInputElement>(null);
 
   const type = useMemo(
     () => [
@@ -33,7 +34,7 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState(type[0].ref);
   const [modal, setModal] = useState(false);
 
-  const openModal = (ingredient) => {
+  const openModal = (ingredient: TIngredient) => {
     dispatch(setIngredientDetails(ingredient));
     setModal(true);
   };
@@ -44,27 +45,18 @@ const BurgerIngredients = () => {
   };
 
   const handleScroll = () => {
-    if (
-      containerRef.current.getBoundingClientRect().top >
-      bunRef.current.getBoundingClientRect().top
-    ) {
+    if (containerRef.current?.getBoundingClientRect().top! > bunRef.current?.getBoundingClientRect().top!) {
       setCurrent(bunRef);
     }
-    if (
-      containerRef.current.getBoundingClientRect().top >
-      sauceRef.current.getBoundingClientRect().top
-    ) {
+    if (containerRef.current?.getBoundingClientRect().top! > sauceRef.current?.getBoundingClientRect().top!) {
       setCurrent(sauceRef);
     }
-    if (
-      containerRef.current.getBoundingClientRect().top >
-      mainRef.current.getBoundingClientRect().top
-    ) {
+    if (containerRef.current?.getBoundingClientRect().top! > mainRef.current?.getBoundingClientRect().top!) {
       setCurrent(mainRef);
     }
   };
 
-  const handleClick = (ref) => {
+  const handleClick = (ref: any) => {
     setCurrent(ref);
     ref.current.scrollIntoView({ behavior: "smooth" });
   };

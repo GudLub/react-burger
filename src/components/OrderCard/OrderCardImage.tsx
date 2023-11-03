@@ -1,7 +1,11 @@
 import styles from "./OrderCard.module.scss";
 import { useAppSelector } from "../../hooks";
+import { FC } from "react";
 
-const OrderCardImage = ({ ingredients }: { ingredients: string[]}) => {
+type TOrderCardImage = {
+  ingredients: string[]
+}
+const OrderCardImage: FC<TOrderCardImage> = ({ ingredients }) => {
   const allIngredients = useAppSelector(
     (store) => store.burgerIngredientsReducer.data
   );

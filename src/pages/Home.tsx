@@ -1,4 +1,4 @@
-import BurgerConstructorRoot from "../components/BurgerConstructorRoot/BurgerConstructorRoot.jsx";
+import BurgerConstructorRoot from "../components/BurgerConstructorRoot/BurgerConstructorRoot";
 
 const Home = () => {
   return <BurgerConstructorRoot />;

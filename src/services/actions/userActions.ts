@@ -402,4 +402,3 @@ export type TUserActions =
 | TGetUserRequest
 | TGetUserSuccess
 | TGetUserFailed;
-

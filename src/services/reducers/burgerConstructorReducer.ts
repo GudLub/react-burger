@@ -5,24 +5,25 @@ import {
   DELETE_INGREDIENT,
   TBurgerConstructorActions
 } from "../actions/burgerConstructorActions";
-import { CLEAR_BURGER_CONSTRUCTOR, TClearBurgerConstructor } from "../actions/orderActions";
+import { CLEAR_BURGER_CONSTRUCTOR } from "../actions/orderActions";
 import { TIngredient } from "../../utils/types";
 
 type TInitialState = {
-  bun: TIngredient[];
-  ingredients: TIngredient[];
+  bun: TIngredient[],
+  ingredients: TIngredient[],
 }
 const initialState: TInitialState = {
   bun: [],
   ingredients: [],
 };
 
-export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions | TClearBurgerConstructor) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TInitialState => {
   switch (action.type) {
     case ADD_BUN:
+      const bun: TIngredient = action.bun;
       return {
         ...state,
-        bun: action.bun,
+        bun: [...state.bun, bun],
       };
     case ADD_INGREDIENT:
       return {
@@ -53,7 +54,7 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerCo
         ingredients: [...newIngredientsState.ingredients],
       };
     case CLEAR_BURGER_CONSTRUCTOR:
-      return initialState;
+      return { ...initialState };
     default:
       return state;
   }

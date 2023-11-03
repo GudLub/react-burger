@@ -12,7 +12,7 @@ const AppHeader = () => {
   const feedLink = useMatch("/feed");
   const profileLink = useMatch("/profile");
 
-  const style = ({ isActive }) =>
+  const style = ({ isActive }: { isActive: boolean }) =>
     isActive
       ? `text text_type_main-default`
       : `text text_type_main-default text_color_inactive`;

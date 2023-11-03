@@ -1,4 +1,4 @@
-import FeedId from "../../components/FeedId/FeedId.jsx";
+import FeedId from "../../components/FeedId/FeedId";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/index";
 import { useEffect } from "react";

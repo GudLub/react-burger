@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { TIngredient } from "../../utils/types";
+import { TClearBurgerConstructor } from "./orderActions";
 
 export const ADD_BUN = "ADD_BUN";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
@@ -13,7 +14,7 @@ type TAddBun = {
 export const addBun = (bun: TIngredient): TAddBun => {
   return {
     type: ADD_BUN,
-    bun: bun,
+    bun,
   };
 };
 
@@ -59,4 +60,5 @@ export type TBurgerConstructorActions =
 | TAddBun
 | TAddIngredient
 | TMoveIngredient
-| TDeleteIngredient;
+| TDeleteIngredient
+| TClearBurgerConstructor;

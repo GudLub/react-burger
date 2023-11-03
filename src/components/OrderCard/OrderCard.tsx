@@ -2,13 +2,17 @@ import styles from "./OrderCard.module.scss";
 import { diffDays, diffToString } from "../../utils/orders";
 import { useAppSelector } from "../../hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useMemo } from "react";
+import { useMemo, FC } from "react";
 import OrderCardImage from "./OrderCardImage";
 import { Link } from "react-router-dom";
 import { TWsOrder } from "../../utils/types";
 
+type TOrderCard = {
+  order: TWsOrder,
+  isOrderStatus: boolean
+}
 
-const OrderCard = ({ order, isOrderStatus }: { order: TWsOrder, isOrderStatus: boolean }) => {
+const OrderCard: FC<TOrderCard> = ({ order, isOrderStatus }) => {
   const ingredients = useAppSelector(
     (store) => store.burgerIngredientsReducer.data
   );

@@ -1,4 +1,4 @@
-import IngredientDetails from '../components/IngredientDetails/IngredientDetails.jsx';
+import IngredientDetails from '../components/IngredientDetails/IngredientDetails';
 
 const IngredientsId = () => {
     return (

@@ -1,16 +1,18 @@
 import styles from "./IngredientDetails.module.scss";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
+import { TIngredient } from "../../utils/types";
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const [ingredient, setElement] = useState(undefined);
-  const ingredients = useSelector((store) => store.burgerIngredientsReducer.data);
+  const [ingredient, setElement] = useState<TIngredient | null>(null);
+  const ingredients = useAppSelector((store) => store.burgerIngredientsReducer.data);
 
   useEffect(() => {
-    setElement(ingredients.find((ing) => ing._id === id));
-  }, [ingredients]);
+    const foundIngredient = ingredients ? ingredients.find(ing => ing._id === id) : null;
+    setElement(foundIngredient || null);
+  }, [ingredients, id]);
 
   return ingredient ? (
     <div className={`${styles.details} pt-10 pb-15`}>

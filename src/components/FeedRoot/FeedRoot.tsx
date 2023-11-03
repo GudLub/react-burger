@@ -1,8 +1,8 @@
 import styles from "./FeedRoot.module.scss";
 import Orders from "../Orders/Orders";
 import Stats from "../Stats/Stats";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useEffect, FC } from "react";
 import {
   connect as connectOrders,
   disconnect as disconnectOrders,
@@ -10,10 +10,10 @@ import {
 
 const GET_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
 
-const FeedRoot = () => {
-  const dispatch = useDispatch();
+const FeedRoot: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const orders = useSelector((store) => store.wsReducer.orders);
+  const orders = useAppSelector((store) => store.wsReducer.orders);
   useEffect(() => {
     dispatch(connectOrders(GET_ORDERS_SERVER_URL));
     return () => dispatch(disconnectOrders());

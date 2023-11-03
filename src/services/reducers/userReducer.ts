@@ -208,4 +208,4 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     default:
       return state;
   }
-};
+}
