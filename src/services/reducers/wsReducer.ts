@@ -3,7 +3,7 @@ import {
   wsOpen,
   wsClose,
   wsMessage,
-  wsError
+  wsError,
 } from '../actions/wsActions';
 import { WebsocketStatus } from '../../utils/orders';
 import { createReducer } from '@reduxjs/toolkit';
@@ -47,17 +47,18 @@ export const wsReducer = createReducer(initialState, (builder) => {
         state.connectionError = '';
         state.success = true;
     })
-    .addCase(wsMessage, (state, action: any) => {
-      state.orders = action.payload;
-      state.total = action.payload;
-      state.totalToday = action.payload;
+    .addCase(wsMessage, (state, {payload}: any) => {
+      state.orders = payload ?? [];
+      state.total = payload ?? null;
+      state.totalToday = payload ?? null;
       state.success = false;
     })
     .addCase(wsClose, state => {
         state.status = WebsocketStatus.OFFLINE;
     })
-    .addCase(wsError, (state, action) => {
-        state.connectionError = action.payload;
+    .addCase(wsError, (state, { payload }) => {
+        state.connectionError = payload ?? '';
     })
     
 })
+

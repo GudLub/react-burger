@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import { useEffect, FC } from "react";
+import { useEffect, FC, MouseEvent } from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Modal.module.scss";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
@@ -8,6 +8,12 @@ import { TModal } from "../../utils/types";
 const modalRoot = document.getElementById("modal");
 
 const Modal: FC<TModal> = ({ children, onClick }) => {
+
+const handlePropagation = (e: MouseEvent) => {
+  e.stopPropagation();
+ onClick();
+;
+}
   useEffect(() => {
     const closeByEsc = (evt: KeyboardEvent) => {
       if (evt.key === "Escape") {
@@ -25,16 +31,20 @@ const Modal: FC<TModal> = ({ children, onClick }) => {
   }
 
   return createPortal(
+    
     <ModalOverlay onClick={onClick}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.buttonClose} onClick={onClick}>
+      <div className={styles.modal} onClick={handlePropagation}>
+        <button className={styles.buttonClose} onClick={handlePropagation}>
           <CloseIcon type="primary" />
         </button>
         {children}
       </div>
-    </ModalOverlay>,
-    modalRoot
+    </ModalOverlay>
+    
+    , modalRoot
   );
+
+
 };
 
 export default Modal;

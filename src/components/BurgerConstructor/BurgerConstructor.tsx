@@ -16,7 +16,7 @@ import {
   addIngredient,
 } from "../../services/actions/burgerConstructorActions";
 import { useNavigate } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
+import { TIngredientComponent } from "../Ingredient/Ingredient";
 
 const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
@@ -41,11 +41,11 @@ const BurgerConstructor = () => {
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item: TIngredient) {
-      if (item.type === "bun") {
-        dispatch(addBun(item));
+    drop(item: TIngredientComponent) {
+      if (item.ingredient.type === "bun") {
+        dispatch(addBun(item.ingredient));
       } else {
-        dispatch(addIngredient(item));
+        dispatch(addIngredient(item.ingredient));
       }
     },
   });

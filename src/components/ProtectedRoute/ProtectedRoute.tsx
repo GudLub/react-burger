@@ -12,7 +12,7 @@ const Protected: FC<TProtected> = ({ onlyUnAuth = false, component }: TProtected
   // при этом результат этой проверки не имеет значения, важно только,
   // что сам факт проверки имел место.
   const isAuthChecked = useAppSelector((store) => store.userReducer.isAuthChecked);
-  const user = useAppSelector((store) => store.userReducer);
+  const user = useAppSelector((store) => store.userReducer.accessToken);
   const location = useLocation();
 
   if (!isAuthChecked) {

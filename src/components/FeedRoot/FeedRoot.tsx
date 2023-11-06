@@ -14,11 +14,16 @@ const FeedRoot: FC = () => {
   const dispatch = useAppDispatch();
 
   const orders = useAppSelector((store) => store.wsReducer.orders);
+  // const status = useAppSelector((store) => store.wsReducer.status);
+  // const success = useAppSelector((store) => store.wsReducer.success);
+
   useEffect(() => {
     dispatch(connectOrders(GET_ORDERS_SERVER_URL));
     return () => dispatch(disconnectOrders());
   }, [dispatch]);
-
+  // console.log(orders);
+  // console.log(success);
+  // console.log(status)
   return (
     <main className={styles.main}>
       {orders.success ? (

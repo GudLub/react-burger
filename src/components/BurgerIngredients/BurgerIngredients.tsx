@@ -1,7 +1,7 @@
 import styles from "./BurgerIngredients.module.scss";
 import Ingredient from "../Ingredient/Ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, MouseEvent } from "react";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {
@@ -36,7 +36,6 @@ const BurgerIngredients: FC = () => {
 
   const openModal = (ingredient: TIngredient) => {
     dispatch(setIngredientDetails(ingredient));
-    setModal(true);
   };
 
   const closeModal = () => {
@@ -95,7 +94,7 @@ const BurgerIngredients: FC = () => {
                     data.type === type.type && (
                       <li key={data._id} className="text text_type_main-medium">
                         <Ingredient
-                          {...data}
+                          ingredient = {data}
                           openModal={() => {
                             openModal(data);
                           }}

@@ -44,15 +44,15 @@ export const wsProfileReducer = createReducer(initialState, (builder) => {
         state.connectionError = '';
         state.success = true;
     })
-    .addCase(wsMessageInProfile, (state, action: any) => {
-      state.orders = action.payload;
+    .addCase(wsMessageInProfile, (state, { payload }: any) => {
+      state.orders = payload ?? [];
       state.success = false;
     })
     .addCase(wsCloseInProfile, state => {
         state.status = WebsocketStatus.OFFLINE;
     })
-    .addCase(wsErrorInProfile, (state, action) => {
-        state.connectionError = action.payload;
+    .addCase(wsErrorInProfile, (state, { payload }) => {
+        state.connectionError = payload ?? '';
     })
     
 })

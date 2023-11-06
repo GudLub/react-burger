@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef,FC } from "react";
 import { useDrop, useDrag } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks";
 import {
   deleteIngredient,
   moveIngredient,
@@ -19,7 +19,7 @@ type TConstructorElementSorted = {
 
 const ConstructorElementSorted: FC<TConstructorElementSorted> = ({ index, ingredient }) => {
   // const { name, price, image, uuid, _id } = ingredient;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLInputElement>(null);
 
   const removeIngredient = (ingredient: TIngredient, index: string) => {

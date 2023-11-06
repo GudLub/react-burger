@@ -4,8 +4,9 @@ import { TWsOrder } from "../../utils/types";
 import { FC } from "react";
 
 type TOrders = {
-  orders: TWsOrder[]
+  orders: TWsOrder[],
 }
+
 const Orders: FC<TOrders> = ({ orders }) => {
   return (
     <section>

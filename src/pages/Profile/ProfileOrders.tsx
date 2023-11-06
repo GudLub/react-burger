@@ -20,9 +20,8 @@ const ProfileOrders = () => {
 
 // const ordersReverse = orders.slice()
 // .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-// const ordersReverse = orders ? [...orders].reverse() : [];
-console.log(orders);
-// console.log(ordersReverse);
+const ordersReverse = orders ? [...orders].reverse() : [];
+
   useEffect(() => {
     dispatch(
       connectInProfile(
@@ -42,7 +41,7 @@ console.log(orders);
     <>
       {success ? (
         <ul className={styles.scroll}>
-          {orders.map((order) => {
+          {ordersReverse.map((order) => {
             return (
               <li key={order.number}>
                 <OrderCard order={order} isOrderStatus={true}/>
