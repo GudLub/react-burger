@@ -42,7 +42,7 @@ const OrderCard: FC<TOrderCard> = ({ order, isOrderStatus }) => {
 
   return (
     order && (
-      <Link state={{ background: false }} to={`/feed/${order._id}`}>
+      <Link state={{ background: false }} to={`/react-burger/feed/${order._id}`}>
         <div className={styles.order}>
           <div className={styles.number}>
             <p className="text text_type_digits-default">#{order.number}</p>

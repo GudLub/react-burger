@@ -22,12 +22,12 @@ const ResetPassword = () => {
     e.preventDefault();
     dispatch(resetPasswordFetch(values));
     if (isResetSuccess) {
-      navigate('/login');
+      navigate('/react-burger/login');
     }
   }
 
   if (!localStorage.getItem("email")) {
-    return <Navigate to={"/forgot-password"} replace={true} />;
+    return <Navigate to={"/react-burger/forgot-password"} replace={true} />;
   }
 
   return (
@@ -64,7 +64,7 @@ const ResetPassword = () => {
       <p className="text text_type_main-default text_color_inactive">
         Вспомнили пароль?&nbsp;
         <span>
-          <Link to="/login" style={{ color: "#4C4CFF" }}>
+          <Link to="/react-burger/login" style={{ color: "#4C4CFF" }}>
             Войти
           </Link>
         </span>

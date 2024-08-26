@@ -8,9 +8,9 @@ import styles from "./AppHeader.module.scss";
 import { NavLink, useMatch } from "react-router-dom";
 
 const AppHeader = () => {
-  const constructorLink = useMatch("/");
-  const feedLink = useMatch("/feed");
-  const profileLink = useMatch("/profile");
+  const constructorLink = useMatch("/react-burger");
+  const feedLink = useMatch("/react-burger/feed");
+  const profileLink = useMatch("/react-burger/profile");
 
   const style = ({ isActive }: { isActive: boolean }) =>
     isActive
@@ -28,7 +28,7 @@ const AppHeader = () => {
               <BurgerIcon type="secondary" />
             )}
 
-            <NavLink to={{ pathname: "/" }} className={style}>
+            <NavLink to={{ pathname: "/react-burger" }} className={style}>
               Конструктор
             </NavLink>
           </button>
@@ -38,13 +38,13 @@ const AppHeader = () => {
             ) : (
               <ListIcon type="secondary" />
             )}
-            <NavLink to={{ pathname: "/feed" }} className={style}>
+            <NavLink to={{ pathname: "/react-burger/feed" }} className={style}>
               Лента&nbsp;заказов
             </NavLink>
           </button>
         </div>
         <div className={styles.logo}>
-          <NavLink to="/">
+          <NavLink to="/react-burger">
             <Logo />
           </NavLink>
         </div>
@@ -54,7 +54,7 @@ const AppHeader = () => {
           ) : (
             <ProfileIcon type="secondary" />
           )}
-          <NavLink to={{ pathname: "/profile" }} className={style}>
+          <NavLink to={{ pathname: "/react-burger/profile" }} className={style}>
             Личный&nbsp;кабинет
           </NavLink>
         </button>

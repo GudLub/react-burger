@@ -23,7 +23,7 @@ const Ingredient = ({ ingredient, openModal }: TIngredientComponent) => {
   );
 
   const navigate = useNavigate();
-  const match = useMatch('ingredients/:id');
+  const match = useMatch('/react-burgeringredients/:id');
   const { id } = match?.params || {};
 
   const counter = useMemo(() => {
@@ -48,7 +48,7 @@ const Ingredient = ({ ingredient, openModal }: TIngredientComponent) => {
     <div
     onClick={() => {
       if(id !== ingredient._id) {
-        navigate(`/ingredients/${ingredient._id}`, { state: { background: true } });
+        navigate(`/react-burger/ingredients/${ingredient._id}`, { state: { background: true } });
       }
       openModal();
     }}

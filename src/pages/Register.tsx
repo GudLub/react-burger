@@ -75,7 +75,7 @@ const Register = () => {
       <p className="text text_type_main-default text_color_inactive">
         Уже зарегистрированы?&nbsp;
         <span>
-          <Link to="/login" style={{ color: "#4C4CFF" }}>
+          <Link to="/react-burger/login" style={{ color: "#4C4CFF" }}>
             Войти
           </Link>
         </span>

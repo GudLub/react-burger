@@ -61,7 +61,7 @@ const Login = () => {
       <p className="text text_type_main-default text_color_inactive mb-4">
         Вы - новый пользователь?&nbsp;
         <span>
-          <Link to="/register" style={{ color: "#4C4CFF" }}>
+          <Link to="/react-burger/register" style={{ color: "#4C4CFF" }}>
             Зарегистрироваться
           </Link>
         </span>
@@ -69,7 +69,7 @@ const Login = () => {
       <p className="text text_type_main-default text_color_inactive">
         Забыли пароль?&nbsp;
         <span>
-          <Link to="/forgot-password" style={{ color: "#4C4CFF" }}>
+          <Link to="/react-burger/forgot-password" style={{ color: "#4C4CFF" }}>
             Восстановить пароль
           </Link>
         </span>

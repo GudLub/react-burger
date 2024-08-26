@@ -63,7 +63,7 @@ const BurgerConstructor = () => {
 
   const handleOrderClick = () => {
     if (!localStorage.getItem("refreshToken")) {
-      navigation("/login");
+      navigation("react-burger/login");
     } else {
       submitOrder();
       openModal();

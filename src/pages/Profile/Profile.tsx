@@ -21,7 +21,7 @@ function Profile() {
 
   const onLogout = () => {
     dispatch(logOut());
-    navigate("/");
+    navigate("/react-burger");
   };
 
   useEffect(() => {
@@ -42,16 +42,16 @@ function Profile() {
       <nav style={{ maxWidth: "320px" }}>
         <NavLink
           end
-          to="/profile"
-          className={pathname !== "/profile" ? `text_color_inactive` : ""}
+          to="/react-burger/profile"
+          className={pathname !== "/react-burger/profile" ? `text_color_inactive` : ""}
         >
           <p className="text text_type_main-medium pb-6">Профиль</p>
         </NavLink>
         <NavLink
           end
-          to="/profile/orders"
+          to="/react-burger/profile/orders"
           className={
-            pathname !== "/profile/orders" ? `text_color_inactive` : ""
+            pathname !== "/react-burger/profile/orders" ? `text_color_inactive` : ""
           }
         >
           <p className="text text_type_main-medium pb-6">История заказов</p>

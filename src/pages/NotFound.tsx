@@ -13,7 +13,7 @@ const NotFound = () => {
             paddingTop: 180
             }}>
         <h2 className='text text_type_main-large'>Страница не найдена</h2>
-        <Link to={"/"}>
+        <Link to={"/react-burger"}>
             <Button htmlType="button" type="secondary" size="large">
               Назад к бургерам
             </Button>

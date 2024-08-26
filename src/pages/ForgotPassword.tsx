@@ -20,7 +20,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     dispatch(restorePassword(values));
     if (isPostSuccess) {
-      navigate('/reset-password');
+      navigate('/react-burger/reset-password');
     }
   }
 
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
       <p className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?&nbsp;
         <span>
-          <Link to="/login" style={{ color: "#4C4CFF" }}>
+          <Link to="/react-burger/login" style={{ color: "#4C4CFF" }}>
             Войти
           </Link>
         </span>
